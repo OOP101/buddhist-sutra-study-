@@ -40,7 +40,7 @@
 
 ## 本地使用
 
-直接双击打开 `buddhist-sutra.html` 即可，或部署至任意静态托管平台（GitHub Pages、Vercel、CloudStudio 等）。
+直接双击打开 `index.html` 即可，或部署至任意静态托管平台（GitHub Pages、Vercel、CloudStudio 等）。
 
 ```bash
 # 本地预览（Python 方式）
