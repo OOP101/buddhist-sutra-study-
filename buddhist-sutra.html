@@ -160,6 +160,24 @@
   .header .subtitle span {
     display: inline-block; margin: 0 12px;
   }
+  .repo-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 16px;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    background: rgba(201,169,110,0.08);
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .repo-link:hover {
+    background: rgba(201,169,110,0.2);
+    border-color: var(--gold-bright);
+    box-shadow: 0 0 12px rgba(201,169,110,0.3);
+  }
 
   /* ===== 顶部工具栏 ===== */
   .toolbar {
@@ -675,6 +693,7 @@
     </div>
     <h1>金刚般若波罗蜜经</h1>
     <div class="subtitle"><span>大佛顶首楞严神咒</span></div>
+    <a class="repo-link" href="https://github.com/OOP101/buddhist-sutra-study-" target="_blank" rel="noopener">📦 GitHub 仓库</a>
     <!-- 工具栏 -->
     <div class="toolbar">
       <button class="tool-btn active" id="pinyinToggle" onclick="togglePinyin()">注音 开</button>

@@ -4,6 +4,12 @@
 
 一个单文件佛教经典学习网站，收录 **《金刚般若波罗蜜经》全文（32品）** 与 **《大佛顶首楞严神咒》全文（五会 427 句）**，以庄严肃穆的金箔风格呈现，适合诵经、抄经与深入研读。
 
+## 🌐 在线预览
+
+👉 **https://oop101.github.io/buddhist-sutra-study-/**
+
+> 若链接打不开，说明尚未开启 GitHub Pages：仓库 → **Settings → Pages** → Source 选 `Deploy from a branch` → Branch 选 `main` + `/ (root)` → Save，等待 1-2 分钟即可访问。
+
 ## ✨ 功能特性
 
 - 📖 **经文全文** — 金刚经 32 品完整收录，楞严咒五会 + 咒心逐句排版
