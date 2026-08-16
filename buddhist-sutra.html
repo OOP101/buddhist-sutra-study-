@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金刚般若波罗蜜经 · 大佛顶首楞严神咒</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Ma+Shan+Zheng&display=swap');
+
+  :root {
+    --font-scale: 1;
+    --gold: #c9a96e;
+    --gold-bright: #f0d78c;
+    --gold-dark: #8b6914;
+    --bg-dark: #0d0707;
+    --text-main: #d4c5a9;
+    --pinyin-display: block;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Serif SC', 'SimSun', 'STSong', serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ===== 全局背景层 ===== */
+  .bg-layer {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* 纯CSS光晕背景（无外链依赖） */
+  .bg-photo {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 30%, rgba(201,169,110,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 70%, rgba(139,30,30,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 80% 70%, rgba(139,30,30,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 40% at 50% 100%, rgba(201,169,110,0.06) 0%, transparent 50%);
+  }
+
+  .bg-pattern {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(139,0,0,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 15% 85%, rgba(201,169,110,0.06) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 85%, rgba(201,169,110,0.06) 0%, transparent 45%),
+      linear-gradient(180deg, #0d0707 0%, #1a0c08 40%, #0d0707 100%);
+  }
+
+  /* SVG莲花纹理 */
+  .bg-lotus-pattern {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23c9a96e' stroke-width='0.6' opacity='0.07'%3E%3Cpath d='M70 18 C58 36 58 58 70 70 C82 58 82 36 70 18 Z'/%3E%3Cpath d='M70 18 C52 30 40 48 46 64 C58 58 66 46 70 28 Z'/%3E%3Cpath d='M70 18 C88 30 100 48 94 64 C82 58 74 46 70 28 Z'/%3E%3Cpath d='M70 70 C46 64 28 70 22 88 C40 88 58 80 70 70 Z'/%3E%3Cpath d='M70 70 C94 64 112 70 118 88 C100 88 82 80 70 70 Z'/%3E%3Cpath d='M70 70 C64 88 58 106 70 122 C82 106 76 88 70 70 Z'/%3E%3Ccircle cx='70' cy='70' r='4' opacity='0.6' fill='%23c9a96e' fill-opacity='0.3'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 140px 140px;
+  }
+
+  /* 顶部金光 */
+  .bg-glow-top {
+    position: absolute;
+    top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 600px;
+    background: radial-gradient(ellipse, rgba(201,169,110,0.12) 0%, transparent 60%);
+    border-radius: 50%;
+  }
+
+  .bg-texture {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(201,169,110,0.015) 3px, rgba(201,169,110,0.015) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(201,169,110,0.015) 3px, rgba(201,169,110,0.015) 4px);
+  }
+
+  /* ===== 阅读进度条 ===== */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-bright));
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s;
+    box-shadow: 0 0 8px rgba(201,169,110,0.5);
+  }
+
+  /* ===== 香烟效果 ===== */
+  .incense-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1;
+  }
+  .smoke {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: rgba(201,169,110,0.3);
+    border-radius: 50%;
+    animation: smokeRise linear infinite;
+  }
+  .smoke:nth-child(1) { left: 15%; bottom: 15%; animation-duration: 12s; animation-delay: 0s; }
+  .smoke:nth-child(2) { left: 18%; bottom: 12%; animation-duration: 15s; animation-delay: 3s; }
+  .smoke:nth-child(3) { left: 82%; bottom: 14%; animation-duration: 14s; animation-delay: 5s; }
+  .smoke:nth-child(4) { left: 85%; bottom: 11%; animation-duration: 16s; animation-delay: 2s; }
+  .smoke:nth-child(5) { left: 50%; bottom: 8%; animation-duration: 13s; animation-delay: 7s; }
+
+  @keyframes smokeRise {
+    0%   { transform: translateY(0) scale(1); opacity: 0; }
+    10%  { opacity: 0.6; }
+    50%  { transform: translateY(-60vh) translateX(20px) scale(15); opacity: 0.3; }
+    100% { transform: translateY(-100vh) translateX(-10px) scale(30); opacity: 0; }
+  }
+
+  /* ===== 主容器 ===== */
+  .main-wrapper {
+    position: relative; z-index: 2;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部标题区 ===== */
+  .header {
+    text-align: center;
+    padding: 40px 20px 15px;
+    position: relative;
+  }
+  .header-ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; margin-bottom: 10px;
+  }
+  .ornament-line {
+    width: 80px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .lotus-icon {
+    font-size: 32px; color: var(--gold);
+    filter: drop-shadow(0 0 10px rgba(201,169,110,0.5));
+  }
+  .header h1 {
+    font-size: 2.2em; font-weight: 900;
+    background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 40%, var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.15em;
+    margin: 10px 0;
+  }
+  .header .subtitle {
+    font-size: 1em; color: #a08860;
+    letter-spacing: 0.3em;
+    margin-top: 5px;
+  }
+  .header .subtitle span {
+    display: inline-block; margin: 0 12px;
+  }
+
+  /* ===== 顶部工具栏 ===== */
+  .toolbar {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin: 10px auto 0;
+    flex-wrap: wrap;
+  }
+  .tool-btn {
+    background: rgba(201,169,110,0.08);
+    border: 1px solid rgba(201,169,110,0.25);
+    color: var(--gold);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    cursor: pointer;
+    font-family: 'Noto Serif SC', serif;
+    transition: all 0.25s;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+  .tool-btn:hover {
+    background: rgba(201,169,110,0.18);
+    border-color: var(--gold);
+    color: var(--gold-bright);
+  }
+  .tool-btn.active {
+    background: rgba(201,169,110,0.2);
+    color: var(--gold-bright);
+    border-color: var(--gold);
+  }
+  .font-btns { display: flex; gap: 4px; }
+  .font-btn {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(201,169,110,0.08);
+    border: 1px solid rgba(201,169,110,0.25);
+    color: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.75em;
+    transition: all 0.25s;
+    font-family: serif;
+  }
+  .font-btn:hover { background: rgba(201,169,110,0.18); }
+  .font-btn small { font-size: 0.7em; }
+
+  /* ===== 三栏布局 ===== */
+  .container {
+    max-width: 1600px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 220px 1fr 220px;
+    gap: 20px; padding: 10px 20px 40px;
+    align-items: start;
+  }
+
+  /* ===== 左右护法栏 ===== */
+  .guardian-panel {
+    position: sticky; top: 20px;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 20px 10px;
+  }
+  .guardian-frame {
+    width: 180px; height: 420px;
+    border: 2px solid rgba(201,169,110,0.3);
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(30,18,16,0.95), rgba(20,10,10,0.98));
+    position: relative; overflow: hidden;
+    box-shadow: 0 0 30px rgba(139,0,0,0.2), inset 0 0 60px rgba(0,0,0,0.5);
+  }
+  .guardian-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 1px solid rgba(201,169,110,0.15);
+    border-radius: 6px; margin: 6px;
+    pointer-events: none;
+  }
+  .guardian-frame .glow {
+    position: absolute;
+    top: -30%; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .guardian-svg {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%;
+  }
+  .guardian-name {
+    margin-top: 15px; font-size: 1.1em; font-weight: 700;
+    color: var(--gold); letter-spacing: 0.1em;
+  }
+  .guardian-title {
+    font-size: 0.75em; color: #8a7050;
+    margin-top: 4px; letter-spacing: 0.15em;
+  }
+  .guardian-mantra {
+    margin-top: 12px; font-size: 0.7em;
+    color: #6a5555; text-align: center;
+    line-height: 2; letter-spacing: 0.05em;
+  }
+
+  /* ===== 中间内容区 ===== */
+  .content-panel {
+    background: linear-gradient(180deg, rgba(25,15,12,0.92), rgba(18,10,8,0.96));
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 0 60px rgba(0,0,0,0.5), 0 0 20px rgba(139,0,0,0.1);
+    min-height: 80vh;
+    position: relative;
+  }
+
+  /* 标签切换 */
+  .tab-nav {
+    display: flex; gap: 0; margin-bottom: 5px;
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+    padding: 0 10px;
+    position: relative;
+  }
+  .tab-btn {
+    flex: 1; padding: 14px 10px;
+    background: none; border: none;
+    color: #8a7050; font-size: calc(1em * var(--font-scale));
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 600; letter-spacing: 0.08em;
+    cursor: pointer; position: relative;
+    transition: all 0.3s;
+  }
+  .tab-btn:hover { color: var(--gold); }
+  .tab-btn.active { color: var(--gold-bright); }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute; bottom: -1px; left: 20%; right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  /* 导航按钮 */
+  .nav-toggle-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: rgba(201,169,110,0.1);
+    border: 1px solid rgba(201,169,110,0.3);
+    color: var(--gold);
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+    transition: all 0.25s;
+  }
+  .nav-toggle-btn:hover {
+    background: rgba(201,169,110,0.2);
+  }
+
+  /* 导航面板 */
+  .nav-panel {
+    position: absolute;
+    top: 50px; right: 12px;
+    width: 260px; max-height: 60vh;
+    overflow-y: auto;
+    background: rgba(15,8,6,0.98);
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 10px;
+    padding: 12px;
+    z-index: 20;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .nav-panel.show { display: block; animation: navSlide 0.2s ease; }
+  @keyframes navSlide {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .nav-panel::-webkit-scrollbar { width: 4px; }
+  .nav-panel::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.3); border-radius: 2px; }
+  .nav-panel h4 {
+    color: var(--gold); font-size: 0.85em;
+    letter-spacing: 0.1em; margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+  }
+  .nav-panel a {
+    display: block;
+    color: #8a7050; font-size: 0.82em;
+    padding: 5px 8px; border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    line-height: 1.6;
+  }
+  .nav-panel a:hover {
+    color: var(--gold-bright);
+    background: rgba(201,169,110,0.08);
+    padding-left: 12px;
+  }
+
+  /* 经文滚动区 */
+  .sutra-scroll {
+    max-height: 70vh; overflow-y: auto;
+    padding: 20px 30px;
+    scroll-behavior: smooth;
+  }
+  .sutra-scroll::-webkit-scrollbar { width: 6px; }
+  .sutra-scroll::-webkit-scrollbar-track { background: transparent; }
+  .sutra-scroll::-webkit-scrollbar-thumb {
+    background: rgba(201,169,110,0.25);
+    border-radius: 3px;
+  }
+
+  .sutra-section { display: none; }
+  .sutra-section.active { display: block; }
+
+  /* 经文标题 */
+  .sutra-title {
+    text-align: center; padding: 20px 0 30px;
+    position: relative;
+  }
+  .sutra-title h2 {
+    font-size: calc(1.6em * var(--font-scale)); font-weight: 900;
+    color: var(--gold-bright); letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .sutra-title .translator {
+    font-size: 0.8em; color: #8a7050;
+    letter-spacing: 0.1em;
+  }
+  .sutra-title .decorative-line {
+    width: 120px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 15px auto;
+  }
+
+  /* 分品标题 */
+  .chapter-title {
+    font-size: calc(1.15em * var(--font-scale)); font-weight: 700;
+    color: var(--gold); text-align: center;
+    margin: 30px 0 15px;
+    letter-spacing: 0.08em;
+    position: relative;
+    scroll-margin-top: 15px;
+  }
+  .chapter-title::before,
+  .chapter-title::after {
+    content: '◆';
+    font-size: 0.4em; color: rgba(201,169,110,0.4);
+    margin: 0 10px; vertical-align: middle;
+  }
+
+  /* 经文正文 */
+  .sutra-text {
+    font-size: calc(1.05em * var(--font-scale)); line-height: 2.2;
+    color: #c8b898; text-align: justify;
+    letter-spacing: 0.03em;
+    padding: 0 5px;
+  }
+  .sutra-text p { margin-bottom: 0.8em; text-indent: 2em; }
+  .sutra-text .highlight {
+    color: var(--gold-bright); font-weight: 600;
+  }
+
+  /* 咒语样式 */
+  .mantra-block {
+    text-align: center;
+    padding: 20px 10px;
+    font-size: calc(1.1em * var(--font-scale)); line-height: 2.5;
+    letter-spacing: 0.05em;
+  }
+  .mantra-block .assembly-title {
+    font-size: calc(1.3em * var(--font-scale)); font-weight: 900;
+    color: var(--gold-bright); letter-spacing: 0.2em;
+    margin: 25px 0 15px; padding: 10px;
+    border-top: 1px solid rgba(201,169,110,0.2);
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+    scroll-margin-top: 15px;
+  }
+
+  /* 咒语单行 + 注音 */
+  .mantra-entry {
+    margin: 6px 0;
+    transition: color 0.3s;
+    cursor: default;
+    line-height: 1.8;
+  }
+  .mantra-entry:hover { color: var(--gold-bright); }
+  .mantra-entry::after {
+    content: attr(data-pinyin);
+    display: var(--pinyin-display);
+    font-size: 0.5em;
+    color: rgba(201,169,110,0.35);
+    font-style: italic;
+    letter-spacing: 0.02em;
+    margin-top: 1px;
+    line-height: 1.4;
+    font-family: 'Noto Serif SC', sans-serif;
+  }
+  body.hide-pinyin { --pinyin-display: none; }
+
+  .mantra-verse {
+    margin: 15px 0;
+    line-height: 2.2;
+    color: #a09078;
+    font-style: italic;
+  }
+
+  /* 炉香赞等 */
+  .ritual-text {
+    text-align: center;
+    color: #a09078;
+    line-height: 2.2;
+    margin: 10px 0;
+    font-size: 0.95em;
+  }
+  .ritual-text .title-line {
+    color: var(--gold); font-weight: 700;
+    margin: 20px 0 5px;
+    letter-spacing: 0.15em;
+  }
+
+  /* ===== 底部 ===== */
+  .footer {
+    text-align: center; padding: 30px 20px;
+    position: relative; z-index: 2;
+  }
+  .footer-line {
+    width: 150px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,169,110,0.4), transparent);
+    margin: 0 auto 15px;
+  }
+  .footer p {
+    color: #5a4545; font-size: 0.8em;
+    letter-spacing: 0.1em; line-height: 2;
+  }
+  .footer .dedication {
+    color: #8a7050; font-size: 0.9em; margin-top: 5px;
+  }
+
+  /* ===== 浮动光点 ===== */
+  .floating-light {
+    position: fixed; pointer-events: none; z-index: 1;
+    width: 2px; height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: floatLight 8s ease-in-out infinite;
+    box-shadow: 0 0 6px 2px rgba(201,169,110,0.3);
+  }
+  .floating-light:nth-child(1) { left: 10%; animation-delay: 0s; }
+  .floating-light:nth-child(2) { left: 25%; animation-delay: 2s; animation-duration: 10s; }
+  .floating-light:nth-child(3) { left: 40%; animation-delay: 4s; animation-duration: 7s; }
+  .floating-light:nth-child(4) { left: 55%; animation-delay: 1s; animation-duration: 9s; }
+  .floating-light:nth-child(5) { left: 70%; animation-delay: 5s; animation-duration: 11s; }
+  .floating-light:nth-child(6) { left: 85%; animation-delay: 3s; }
+
+  @keyframes floatLight {
+    0%, 100% { transform: translateY(100vh) scale(1); opacity: 0; }
+    10% { opacity: 0.8; }
+    50% { transform: translateY(20vh) translateX(30px) scale(1.5); opacity: 0.4; }
+    90% { opacity: 0; }
+  }
+
+  /* ===== 经文详解样式 ===== */
+  .commentary-intro {
+    background: rgba(201,169,110,0.04);
+    border: 1px solid rgba(201,169,110,0.15);
+    border-radius: 8px;
+    padding: 25px 30px;
+    margin: 20px 0 30px;
+    line-height: 1.9;
+    font-size: calc(0.92em * var(--font-scale));
+  }
+  .commentary-intro p { margin-bottom: 12px; }
+  .commentary-intro p:last-child { margin-bottom: 0; }
+
+  .commentary-card {
+    background: rgba(20,12,8,0.6);
+    border: 1px solid rgba(201,169,110,0.12);
+    border-radius: 8px;
+    padding: 25px 30px;
+    margin: 20px 0;
+    scroll-margin-top: 20px;
+    transition: border-color 0.3s;
+  }
+  .commentary-card:hover { border-color: rgba(201,169,110,0.3); }
+  .commentary-card h3 {
+    font-size: calc(1.15em * var(--font-scale));
+    color: var(--gold-bright);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,169,110,0.1);
+    letter-spacing: 0.05em;
+  }
+  .commentary-card .card-subtitle {
+    font-size: 0.8em; color: #8a7050;
+    margin-bottom: 15px; letter-spacing: 0.05em;
+  }
+  .commentary-card p {
+    line-height: 1.9;
+    font-size: calc(0.9em * var(--font-scale));
+    margin-bottom: 12px;
+  }
+  .commentary-card p:last-child { margin-bottom: 0; }
+
+  .key-concept {
+    display: inline-block;
+    background: rgba(201,169,110,0.08);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 4px;
+    padding: 2px 10px;
+    margin: 2px 4px;
+    font-size: 0.85em;
+    color: var(--gold);
+  }
+
+  .verse-quote {
+    background: rgba(139,30,30,0.08);
+    border-left: 3px solid rgba(201,169,110,0.3);
+    padding: 12px 20px;
+    margin: 15px 0;
+    font-style: italic;
+    color: var(--gold);
+    font-size: calc(0.88em * var(--font-scale));
+    line-height: 1.8;
+  }
+
+  .section-divider {
+    text-align: center;
+    margin: 35px 0 25px;
+    color: rgba(201,169,110,0.3);
+    font-size: 0.75em;
+    letter-spacing: 0.3em;
+  }
+  .section-divider::before,
+  .section-divider::after {
+    content: '───';
+    margin: 0 10px;
+  }
+
+  .practice-list {
+    list-style: none;
+    counter-reset: practice;
+  }
+  .practice-list li {
+    counter-increment: practice;
+    padding: 10px 0 10px 40px;
+    position: relative;
+    line-height: 1.8;
+    font-size: calc(0.9em * var(--font-scale));
+    border-bottom: 1px solid rgba(201,169,110,0.06);
+  }
+  .practice-list li:last-child { border-bottom: none; }
+  .practice-list li::before {
+    content: counter(practice);
+    position: absolute;
+    left: 0; top: 10px;
+    width: 28px; height: 28px;
+    background: rgba(201,169,110,0.1);
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75em; color: var(--gold);
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 1200px) {
+    .container { grid-template-columns: 150px 1fr 150px; gap: 10px; padding: 10px; }
+    .guardian-frame { width: 130px; height: 320px; }
+  }
+  @media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; max-width: 100%; }
+    .guardian-panel { display: none; }
+    .header h1 { font-size: 1.4em; }
+    .sutra-scroll { padding: 15px; }
+    .nav-panel { width: 220px; right: 5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 阅读进度条 -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- 背景层 -->
+<div class="bg-layer">
+  <div class="bg-photo"></div>
+  <div class="bg-pattern"></div>
+  <div class="bg-lotus-pattern"></div>
+  <div class="bg-glow-top"></div>
+  <div class="bg-texture"></div>
+</div>
+
+<!-- 香烟效果 -->
+<div class="incense-container">
+  <div class="smoke"></div><div class="smoke"></div><div class="smoke"></div>
+  <div class="smoke"></div><div class="smoke"></div>
+</div>
+
+<!-- 浮动光点 -->
+<div class="floating-light"></div><div class="floating-light"></div>
+<div class="floating-light"></div><div class="floating-light"></div>
+<div class="floating-light"></div><div class="floating-light"></div>
+
+<!-- 主容器 -->
+<div class="main-wrapper">
+
+  <!-- ===== 顶部 ===== -->
+  <header class="header">
+    <div class="header-ornament">
+      <div class="ornament-line"></div>
+      <div class="lotus-icon">☸</div>
+      <div class="ornament-line"></div>
+    </div>
+    <h1>金刚般若波罗蜜经</h1>
+    <div class="subtitle"><span>大佛顶首楞严神咒</span></div>
+    <!-- 工具栏 -->
+    <div class="toolbar">
+      <button class="tool-btn active" id="pinyinToggle" onclick="togglePinyin()">注音 开</button>
+      <div class="font-btns">
+        <div class="font-btn" onclick="changeFontSize(-1)" title="缩小">A<small>−</small></div>
+        <div class="font-btn" onclick="changeFontSize(0)" title="默认">A</div>
+        <div class="font-btn" onclick="changeFontSize(1)" title="放大" style="font-size:1.1em">A<small>+</small></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== 三栏布局 ===== -->
+  <div class="container">
+
+    <!-- 左护法：韦驮菩萨 -->
+    <aside class="guardian-panel">
+      <div class="guardian-frame">
+        <div class="glow"></div>
+        <svg class="guardian-svg" viewBox="0 0 180 420">
+          <circle cx="90" cy="55" r="30" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="1.5"/>
+          <circle cx="90" cy="55" r="22" fill="none" stroke="rgba(201,169,110,0.1)" stroke-width="1"/>
+          <path d="M60,55 Q65,20 90,15 Q115,20 120,55 Z" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+          <path d="M65,55 L50,45 M115,55 L130,45" stroke="#c9a96e" stroke-width="1" opacity="0.6"/>
+          <ellipse cx="90" cy="62" rx="12" ry="15" fill="none" stroke="rgba(220,200,170,0.5)" stroke-width="1"/>
+          <ellipse cx="85" cy="59" rx="1.5" ry="2" fill="#d4c5a9"/><ellipse cx="95" cy="59" rx="1.5" ry="2" fill="#d4c5a9"/>
+          <path d="M88,67 Q90,69 92,67" fill="none" stroke="#d4c5a9" stroke-width="0.8"/>
+          <path d="M55,80 Q50,90 45,105" stroke="#c9a96e" stroke-width="1.2" fill="none"/>
+          <path d="M125,80 Q130,90 135,105" stroke="#c9a96e" stroke-width="1.2" fill="none"/>
+          <path d="M70,80 L90,120 L110,80 Z" fill="none" stroke="rgba(201,169,110,0.4)" stroke-width="1"/>
+          <line x1="80" y1="80" x2="90" y2="120" stroke="rgba(201,169,110,0.2)" stroke-width="0.8"/>
+          <line x1="100" y1="80" x2="90" y2="120" stroke="rgba(201,169,110,0.2)" stroke-width="0.8"/>
+          <circle cx="90" cy="100" r="8" fill="none" stroke="rgba(201,169,110,0.5)" stroke-width="1"/>
+          <circle cx="90" cy="100" r="3" fill="rgba(201,169,110,0.3)"/>
+          <line x1="55" y1="130" x2="125" y2="130" stroke="rgba(201,169,110,0.4)" stroke-width="1.5"/>
+          <path d="M65,130 L55,180 L75,180 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <path d="M75,130 L70,185 L90,185 L85,130 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <path d="M95,130 L90,185 L110,185 L105,130 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <path d="M105,130 L125,180 L115,130 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <line x1="120" y1="75" x2="168" y2="55" stroke="#c9a96e" stroke-width="2.5"/>
+          <path d="M165,42 L172,55 L165,68" fill="none" stroke="#c9a96e" stroke-width="2"/>
+          <path d="M165,42 Q162,35 168,38" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+          <path d="M165,68 Q162,75 168,72" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+          <circle cx="150" cy="55" r="3" fill="#c9a96e" opacity="0.6"/>
+          <path d="M125,75 Q145,60 155,70 Q165,80 150,90" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="1"/>
+          <path d="M55,75 Q40,60 30,70 Q20,80 35,90" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="1"/>
+          <g opacity="0.3"><line x1="90" y1="25" x2="90" y2="10" stroke="#f0d78c" stroke-width="0.5"/>
+          <line x1="70" y1="28" x2="60" y2="18" stroke="#f0d78c" stroke-width="0.5"/>
+          <line x1="110" y1="28" x2="120" y2="18" stroke="#f0d78c" stroke-width="0.5"/></g>
+        </svg>
+      </div>
+      <div class="guardian-name">韦驮菩萨</div>
+      <div class="guardian-title">护法韦驮尊天菩萨</div>
+      <div class="guardian-mantra">韦驮天将 菩萨化身<br>拥护佛法誓弘深<br>宝杵镇魔军<br>功德难伦<br>祈祷副群心</div>
+    </aside>
+
+    <!-- ===== 中间经文区 ===== -->
+    <main class="content-panel">
+      <button class="nav-toggle-btn" onclick="toggleNav()" title="章节导航">☰</button>
+      <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('diamond')">📿 金刚般若波罗蜜经</button>
+        <button class="tab-btn" onclick="switchTab('shurangama')">🛡️ 大佛顶首楞严神咒</button>
+        <button class="tab-btn" onclick="switchTab('commentary')">📖 经文详解</button>
+      </nav>
+
+      <!-- 导航面板 -->
+      <div class="nav-panel" id="navPanel">
+        <div id="navDiamond">
+          <h4>金刚经 · 三十二品</h4>
+            <a onclick="scrollToId('d01')">法会因由分第一</a>
+            <a onclick="scrollToId('d02')">善现启请分第二</a>
+            <a onclick="scrollToId('d03')">大乘正宗分第三</a>
+            <a onclick="scrollToId('d04')">妙行无住分第四</a>
+            <a onclick="scrollToId('d05')">如理实见分第五</a>
+            <a onclick="scrollToId('d06')">正信希有分第六</a>
+            <a onclick="scrollToId('d07')">无得无说分第七</a>
+            <a onclick="scrollToId('d08')">依法出生分第八</a>
+            <a onclick="scrollToId('d09')">一相无相分第九</a>
+            <a onclick="scrollToId('d10')">庄严净土分第十</a>
+            <a onclick="scrollToId('d11')">无为福胜分第十一</a>
+            <a onclick="scrollToId('d12')">尊重正教分第十二</a>
+            <a onclick="scrollToId('d13')">如法受持分第十三</a>
+            <a onclick="scrollToId('d14')">离相寂灭分第十四</a>
+            <a onclick="scrollToId('d15')">持经功德分第十五</a>
+            <a onclick="scrollToId('d16')">能净业障分第十六</a>
+            <a onclick="scrollToId('d17')">究竟无我分第十七</a>
+            <a onclick="scrollToId('d18')">一体同观分第十八</a>
+            <a onclick="scrollToId('d19')">法界通化分第十九</a>
+            <a onclick="scrollToId('d20')">离色离相分第二十</a>
+            <a onclick="scrollToId('d21')">非说所说分第二十一</a>
+            <a onclick="scrollToId('d22')">无法可得分第二十二</a>
+            <a onclick="scrollToId('d23')">净心行善分第二十三</a>
+            <a onclick="scrollToId('d24')">福智无比分第二十四</a>
+            <a onclick="scrollToId('d25')">化无所化分第二十五</a>
+            <a onclick="scrollToId('d26')">法身非相分第二十六</a>
+            <a onclick="scrollToId('d27')">无断无灭分第二十七</a>
+            <a onclick="scrollToId('d28')">不受不贪分第二十八</a>
+            <a onclick="scrollToId('d29')">威仪寂静分第二十九</a>
+            <a onclick="scrollToId('d30')">一合理相分第三十</a>
+            <a onclick="scrollToId('d31')">知见不生分第三十一</a>
+            <a onclick="scrollToId('d32')">应化非真分第三十二</a>
+        </div>
+        <div id="navShurangama" style="display:none">
+          <h4>楞严咒 · 五会</h4>
+            <a onclick="scrollToId('s-verse')">楞严偈颂</a>
+            <a onclick="scrollToId('s-1')">第一会（礼敬诸佛）</a>
+            <a onclick="scrollToId('s-2')">第二会（金刚部）</a>
+            <a onclick="scrollToId('s-3')">第三会（降伏法）</a>
+            <a onclick="scrollToId('s-4')">第四会（息灾法）</a>
+            <a onclick="scrollToId('s-5')">第五会（楞严咒心）</a>
+            <a onclick="scrollToId('s-heart')" style="color:#f0d78c;font-weight:600">★ 楞严咒心</a>
+        </div>
+        <div id="navCommentary" style="display:none">
+          <h4>经文详解</h4>
+            <a onclick="scrollToId('c-diamond-intro')">金刚经 · 总论</a>
+            <a onclick="scrollToId('c-d01')">第一品 · 发起序</a>
+            <a onclick="scrollToId('c-d03')">第三品 · 发菩提心</a>
+            <a onclick="scrollToId('c-d04')">第四品 · 无住布施</a>
+            <a onclick="scrollToId('c-d05')">第五品 · 见如来</a>
+            <a onclick="scrollToId('c-d10')">第十品 · 庄严净土</a>
+            <a onclick="scrollToId('c-d14')">第十四品 · 忍辱离相</a>
+            <a onclick="scrollToId('c-d18')">第十八品 · 五眼</a>
+            <a onclick="scrollToId('c-d26')">第二十六品 · 法身非相</a>
+            <a onclick="scrollToId('c-d32')">第三十二品 · 四句偈</a>
+            <div style="height:8px"></div>
+            <a onclick="scrollToId('c-shura-intro')">楞严咒 · 总论</a>
+            <a onclick="scrollToId('c-shura-structure')">五会结构</a>
+            <a onclick="scrollToId('c-shura-heart')">咒心详解</a>
+            <a onclick="scrollToId('c-practice')">修持要点</a>
+        </div>
+      </div>
+
+      <div class="sutra-scroll" id="sutraScroll">
+
+        <!-- ========== 金刚经 ========== -->
+        <div class="sutra-section active" id="section-diamond">
+          <div class="sutra-title">
+            <h2>金刚般若波罗蜜经</h2>
+            <p class="translator">姚秦 · 三藏法师 · 鸠摩罗什 译</p>
+            <div class="decorative-line"></div>
+          </div>
+
+          <div class="ritual-text">
+            <div class="title-line">炉 香 赞</div>
+            <p>炉香乍爇　法界蒙熏　诸佛海会悉遥闻<br>随处结祥云　诚意方殷　诸佛现全身</p>
+            <p style="font-size:0.85em">南无香云盖菩萨摩诃萨（三称）</p>
+          </div>
+          <div class="ritual-text">
+            <div class="title-line">开 经 偈</div>
+            <p>无上甚深微妙法　百千万劫难遭遇<br>我今见闻得受持　愿解如来真实义</p>
+          </div>
+
+          <div class="sutra-text">
+            <div class="chapter-title" id="d01">法会因由分第一</div>
+            <p>如是我闻：一时，佛在舍卫国祇树给孤独园，与大比丘众千二百五十人俱。尔时，世尊食时，著衣持钵，入舍卫大城乞食。于其城中次第乞已，还至本处。饭食讫，收衣钵，洗足已，敷座而坐。</p>
+
+            <div class="chapter-title" id="d02">善现启请分第二</div>
+            <p>时，长老须菩提在大众中，即从座起，偏袒右肩，右膝著地，合掌恭敬而白佛言：「<span class="highlight">希有！世尊！如来善护念诸菩萨，善付嘱诸菩萨。世尊！善男子、善女人，发阿耨多罗三藐三菩提心，应云何住？云何降伏其心？</span>」</p>
+            <p>佛言：「善哉！善哉！须菩提！如汝所说：如来善护念诸菩萨，善付嘱诸菩萨。汝今谛听，当为汝说。善男子、善女人，发阿耨多罗三藐三菩提心，应如是住，如是降伏其心。」</p>
+
+            <div class="chapter-title" id="d03">大乘正宗分第三</div>
+            <p>佛告须菩提：「诸菩萨摩诃萨应如是降伏其心：所有一切众生之类——若卵生、若胎生、若湿生、若化生；若有色、若无色；若有想、若无想、若非有想非无想，我皆令入无余涅槃而灭度之。如是灭度无量无数无边众生，实无众生得灭度者。何以故？<span class="highlight">须菩提！若菩萨有我相、人相、众生相、寿者相，即非菩萨。</span>」</p>
+
+            <div class="chapter-title" id="d04">妙行无住分第四</div>
+            <p>「复次，须菩提！菩萨于法，应无所住，行于布施。所谓不住色布施，不住声、香、味、触、法布施。须菩提！菩萨应如是布施，不住于相。何以故？<span class="highlight">若菩萨不住相布施，其福德不可思量。</span></p>
+            <p>「须菩提！于意云何？东方虚空可思量不？」「不也，世尊！」「须菩提！南西北方、四维上下虚空可思量不？」「不也，世尊！」「须菩提！菩萨无住相布施，福德亦复如是不可思量。须菩提！菩萨但应如所教住。」</p>
+
+            <div class="chapter-title" id="d05">如理实见分第五</div>
+            <p>「须菩提！于意云何？可以身相见如来不？」「不也，世尊！不可以身相得见如来。何以故？如来所说身相，即非身相。」佛告须菩提：「<span class="highlight">凡所有相，皆是虚妄。若见诸相非相，即见如来。</span>」</p>
+
+            <div class="chapter-title" id="d06">正信希有分第六</div>
+            <p>须菩提白佛言：「世尊！颇有众生，得闻如是言说章句，生实信不？」佛告须菩提：「莫作是说！如来灭后，后五百岁，有持戒修福者，于此章句能生信心，以此为实。当知是人，不于一佛、二佛、三四五佛而种善根，已于无量千万佛所种诸善根。闻是章句乃至一念生净信者，须菩提！如来悉知悉见，是诸众生得如是无量福德。」</p>
+
+            <div class="chapter-title" id="d07">无得无说分第七</div>
+            <p>「须菩提！于意云何？如来得阿耨多罗三藐三菩提耶？如来有所说法耶？」须菩提言：「如我解佛所说义，无有定法名阿耨多罗三藐三菩提，亦无有定法如来可说。何以故？如来所说法，皆不可取、不可说，非法、非非法。所以者何？<span class="highlight">一切贤圣，皆以无为法而有差别。</span>」</p>
+
+            <div class="chapter-title" id="d08">依法出生分第八</div>
+            <p>「须菩提！于意云何？若人满三千大千世界七宝以用布施，是人所得福德，宁为多不？」须菩提言：「甚多，世尊！何以故？是福德即非福德性，是故如来说福德多。」「若复有人，于此经中受持乃至四句偈等，为他人说，其福胜彼。何以故？须菩提！一切诸佛及诸佛阿耨多罗三藐三菩提法，皆从此经出。须菩提！<span class="highlight">所谓佛法者，即非佛法。</span>」</p>
+
+            <div class="chapter-title" id="d09">一相无相分第九</div>
+            <p>「须菩提！于意云何？须陀洹能作是念『我得须陀洹果』不？」须菩提言：「不也，世尊！何以故？须陀洹名为入流，而无所入，不入色声香味触法，是名须陀洹。」「须菩提！于意云何？斯陀含能作是念『我得斯陀含果』不？」须菩提言：「不也，世尊！何以故？斯陀含名一往来，而实无往来，是名斯陀含。」「须菩提！于意云何？阿那含能作是念『我得阿那含果』不？」须菩提言：「不也，世尊！何以故？阿那含名为不来，而实无不来，是故名阿那含。」「须菩提！于意云何？阿罗汉能作是念『我得阿罗汉道』不？」须菩提言：「不也，世尊！何以故？实无有法名阿罗汉。世尊！若阿罗汉作是念『我得阿罗汉道』，即为著我、人、众生、寿者。」</p>
+
+            <div class="chapter-title" id="d10">庄严净土分第十</div>
+            <p>佛告须菩提：「于意云何？如来昔在然灯佛所，于法有所得不？」「不也，世尊！如来在然灯佛所，于法实无所得。」「须菩提！于意云何？菩萨庄严佛土不？」「不也，世尊！何以故？庄严佛土者，即非庄严，是名庄严。」「是故，须菩提！诸菩萨摩诃萨，<span class="highlight">应如是生清净心——不应住色生心，不应住声香味触法生心，应无所住而生其心。</span>」</p>
+
+            <div class="chapter-title" id="d11">无为福胜分第十一</div>
+            <p>「须菩提！如恒河中所有沙数，如是沙等恒河。于意云何？是诸恒河沙，宁为多不？」须菩提言：「甚多，世尊！但诸恒河尚多无数，何况其沙！」「须菩提！我今实言告汝：若有善男子、善女人，以七宝满尔所恒河沙数三千大千世界以用布施，得福多不？」须菩提言：「甚多，世尊！」佛告须菩提：「若善男子、善女人，于此经中乃至受持四句偈等，为他人说，而此福德，胜前福德。」</p>
+
+            <div class="chapter-title" id="d12">尊重正教分第十二</div>
+            <p>「复次，须菩提！随说是经，乃至四句偈等，当知此处，一切世间天、人、阿修罗，皆应供养，如佛塔庙。何况有人尽能受持读诵。须菩提！<span class="highlight">当知是人成就最上第一希有之法。若是经典所在之处，即为有佛，若尊重弟子。</span>」</p>
+
+            <div class="chapter-title" id="d13">如法受持分第十三</div>
+            <p>尔时，须菩提白佛言：「世尊！当何名此经？我等云何奉持？」佛告须菩提：「是经名为《金刚般若波罗蜜》，以是名字，汝当奉持。所以者何？须菩提！佛说般若波罗蜜，即非般若波罗蜜，是名般若波罗蜜。」「须菩提！于意云何？如来有所说法不？」须菩提白佛言：「世尊！如来无所说。」「须菩提！于意云何？三千大千世界所有微尘，是为多不？」须菩提言：「甚多，世尊！」「须菩提！诸微尘，如来说非微尘，是名微尘。如来说世界，非世界，是名世界。」</p>
+
+            <div class="chapter-title" id="d14">离相寂灭分第十四</div>
+            <p>尔时，须菩提闻说是经，深解义趣，涕泪悲泣而白佛言：「希有！世尊！佛说如是甚深经典，我从昔来所得慧眼，未曾得闻如是之经。世尊！若复有人得闻是经，信心清净，即生实相。当知是人成就第一希有功德。」</p>
+            <p>「世尊！是实相者，即是非相，是故如来说名实相。世尊！我今得闻如是经典，信解受持不足为难。若当来世后五百岁，其有众生得闻是经，信解受持，是人则为第一希有。何以故？此人无我相、无人相、无众生相、无寿者相。所以者何？<span class="highlight">我相即是非相，人相、众生相、寿者相即是非相。何以故？离一切诸相，即名诸佛。</span>」</p>
+            <p>佛告须菩提：「如是！如是！若复有人得闻是经，不惊、不怖、不畏，当知是人甚为希有。」「须菩提！如来说第一波罗蜜，即非第一波罗蜜，是名第一波罗蜜。须菩提！忍辱波罗蜜，如来说非忍辱波罗蜜，是名忍辱波罗蜜。何以故？须菩提！如我昔为歌利王割截身体，我于尔时无我相、无人相、无众生相、无寿者相。」</p>
+            <p>「是故，须菩提！菩萨应离一切相，发阿耨多罗三藐三菩提心。不应住色生心，不应住声香味触法生心，应生无所住心。若心有住，即为非住。」「<span class="highlight">须菩提！如来是真语者、实语者、如语者、不诳语者、不异语者。须菩提！如来所得法，此法无实无虚。</span>」</p>
+
+            <div class="chapter-title" id="d15">持经功德分第十五</div>
+            <p>「须菩提！若有善男子、善女人，初日分以恒河沙等身布施，中日分复以恒河沙等身布施，后日分亦以恒河沙等身布施，如是无量百千万亿劫以身布施。若复有人闻此经典，信心不逆，其福胜彼。何况书写、受持、读诵、为人解说。」「须菩提！以要言之，是经有不可思议、不可称量、无边功德。」</p>
+
+            <div class="chapter-title" id="d16">能净业障分第十六</div>
+            <p>「复次，须菩提！善男子、善女人，受持读诵此经，若为人轻贱，是人先世罪业应堕恶道，以今世人轻贱故，先世罪业即为消灭，当得阿耨多罗三藐三菩提。」<span class="highlight">「须菩提！当知是经义不可思议，果报亦不可思议。」</span></p>
+
+            <div class="chapter-title" id="d17">究竟无我分第十七</div>
+            <p>尔时，须菩提白佛言：「世尊！善男子、善女人，发阿耨多罗三藐三菩提心，云何应住？云何降伏其心？」佛告须菩提：「善男子、善女人，发阿耨多罗三藐三菩提心者，当生如是心：我应灭度一切众生。灭度一切众生已，而无有一众生实灭度者。何以故？须菩提！若菩萨有我相、人相、众生相、寿者相，即非菩萨。所以者何？须菩提！实无有法发阿耨多罗三藐三菩提心者。」「何以故？如来者，即诸法如义。若有人言『如来得阿耨多罗三藐三菩提』，须菩提！实无有法佛得阿耨多罗三藐三菩提。」</p>
+
+            <div class="chapter-title" id="d18">一体同观分第十八</div>
+            <p>「须菩提！于意云何？如来有肉眼不？」「如是，世尊！如来有肉眼。」「须菩提！于意云何？如来有天眼不？」「如是，世尊！如来有天眼。」「须菩提！于意云何？如来有慧眼不？」「如是，世尊！如来有慧眼。」「须菩提！于意云何？如来有法眼不？」「如是，世尊！如来有法眼。」「须菩提！于意云何？如来有佛眼不？」「如是，世尊！如来有佛眼。」</p>
+            <p>佛告须菩提：「尔所国土中，所有众生若干种心，如来悉知。何以故？如来说诸心，皆为非心，是名为心。所以者何？须菩提！<span class="highlight">过去心不可得，现在心不可得，未来心不可得。</span>」</p>
+
+            <div class="chapter-title" id="d19">法界通化分第十九</div>
+            <p>「须菩提！于意云何？若有人满三千大千世界七宝以用布施，是人以是因缘得福多不？」「如是，世尊！此人以是因缘得福甚多。」「须菩提！若福德有实，如来不说得福德多；以福德无故，如来说得福德多。」</p>
+
+            <div class="chapter-title" id="d20">离色离相分第二十</div>
+            <p>「须菩提！于意云何？佛可以具足色身见不？」「不也，世尊！如来不应以具足色身见。何以故？如来说具足色身，即非具足色身，是名具足色身。」「须菩提！于意云何？如来可以具足诸相见不？」「不也，世尊！如来不应以具足诸相见。何以故？如来说诸相具足，即非具足，是名诸相具足。」</p>
+
+            <div class="chapter-title" id="d21">非说所说分第二十一</div>
+            <p>「须菩提！汝勿谓如来作是念『我当有所说法』，莫作是念！何以故？若人言如来有所说法，即为谤佛，不能解我所说故。须菩提！<span class="highlight">说法者，无法可说，是名说法。</span>」</p>
+
+            <div class="chapter-title" id="d22">无法可得分第二十二</div>
+            <p>须菩提白佛言：「世尊！佛得阿耨多罗三藐三菩提，为无所得耶？」佛言：「如是！如是！须菩提！我于阿耨多罗三藐三菩提，乃至无有少法可得，是名阿耨多罗三藐三菩提。」</p>
+
+            <div class="chapter-title" id="d23">净心行善分第二十三</div>
+            <p>「复次，须菩提！<span class="highlight">是法平等，无有高下，是名阿耨多罗三藐三菩提。</span>以无我、无人、无众生、无寿者，修一切善法，即得阿耨多罗三藐三菩提。须菩提！所言善法者，如来说即非善法，是名善法。」</p>
+
+            <div class="chapter-title" id="d24">福智无比分第二十四</div>
+            <p>「须菩提！若三千大千世界中所有诸须弥山王，如是等七宝聚，有人持用布施。若人以此般若波罗蜜经，乃至四句偈等，受持读诵，为他人说，于前福德，百分不及一，百千万亿分，乃至算数譬喻所不能及。」</p>
+
+            <div class="chapter-title" id="d25">化无所化分第二十五</div>
+            <p>「须菩提！于意云何？汝等勿谓如来作是念『我当度众生』。须菩提！莫作是念！何以故？实无有众生如来度者。若有众生如来度者，如来即有我、人、众生、寿者。」</p>
+
+            <div class="chapter-title" id="d26">法身非相分第二十六</div>
+            <p>「须菩提！于意云何？可以三十二相观如来不？」须菩提言：「如是！如是！以三十二相观如来。」佛言：「须菩提！若以三十二相观如来者，转轮圣王即是如来。」须菩提白佛言：「世尊！如我解佛所说义，不应以三十二相观如来。」尔时，世尊而说偈言：</p>
+            <p style="text-align:center; font-size:1.1em; color:#f0d78c; font-weight:700;">「<span class="highlight">若以色见我　以音声求我<br>是人行邪道　不能见如来</span>」</p>
+
+            <div class="chapter-title" id="d27">无断无灭分第二十七</div>
+            <p>「须菩提！汝若作是念：『如来不以具足相故，得阿耨多罗三藐三菩提。』须菩提！莫作是念！如来不以具足相故，得阿耨多罗三藐三菩提。须菩提！汝若作是念，发阿耨多罗三藐三菩提心者，说诸法断灭。莫作是念！何以故？发阿耨多罗三藐三菩提心者，于法不说断灭相。」</p>
+
+            <div class="chapter-title" id="d28">不受不贪分第二十八</div>
+            <p>「须菩提！若菩萨以满恒河沙等世界七宝持用布施。若复有人知一切法无我，得成于忍，此菩萨胜前菩萨所得功德。何以故？须菩提！以诸菩萨不受福德故。」</p>
+
+            <div class="chapter-title" id="d29">威仪寂静分第二十九</div>
+            <p>「须菩提！若有人言：『如来若来若去，若坐若卧。』是人不解我所说义。何以故？<span class="highlight">如来者，无所从来，亦无所去，故名如来。</span>」</p>
+
+            <div class="chapter-title" id="d30">一合理相分第三十</div>
+            <p>「须菩提！若善男子、善女人，以三千大千世界碎为微尘。于意云何？是微尘众，宁为多不？」须菩提言：「甚多，世尊！何以故？若是微尘众实有者，佛即不说是微尘众。所以者何？佛说微尘众，即非微尘众，是名微尘众。」</p>
+
+            <div class="chapter-title" id="d31">知见不生分第三十一</div>
+            <p>「须菩提！若人言『佛说我见、人见、众生见、寿者见』，须菩提！于意云何？是人解我所说义不？」「不也，世尊！是人不解如来所说义。」「须菩提！发阿耨多罗三藐三菩提心者，于一切法，应如是知、如是见、如是信解，不生法相。须菩提！所言法相者，如来说即非法相，是名法相。」</p>
+
+            <div class="chapter-title" id="d32">应化非真分第三十二</div>
+            <p>「须菩提！若有人以满无量阿僧祇世界七宝持用布施。若有善男子、善女人发菩提心者，持于此经，乃至四句偈等，受持读诵，为人演说，其福胜彼。云何为人演说？不取于相，如如不动。何以故？</p>
+            <p style="text-align:center; font-size:1.15em; color:#f0d78c; font-weight:700; line-height:2.5;">「<span class="highlight">一切有为法　如梦幻泡影<br>如露亦如电　应作如是观</span>」</p>
+            <p>佛说是经已，长老须菩提及诸比丘、比丘尼、优婆塞、优婆夷，一切世间天、人、阿修罗，闻佛所说，皆大欢喜，信受奉行。</p>
+            <p style="text-align:center; color:#c9a96e; font-weight:700; margin-top:30px;">金刚般若波罗蜜经　终</p>
+          </div>
+        </div>
+
+        <!-- ========== 楞严咒 ========== -->
+        <div class="sutra-section" id="section-shurangama">
+          <div class="sutra-title">
+            <h2>大佛顶首楞严神咒</h2>
+            <p class="translator">出自《大佛顶如来密因修证了义诸菩萨万行首楞严经》卷七</p>
+            <div class="decorative-line"></div>
+          </div>
+
+          <div class="ritual-text">
+            <div class="mantra-entry" data-pinyin="nā mó léng yán huì shàng fó pú sà (sān chēng)">南无楞严会上佛菩萨（三称）</div>
+          </div>
+
+          <div class="mantra-verse mantra-block" id="s-verse">
+            <div class="mantra-entry" data-pinyin="miào zhàn zǒng chí bù dòng zūn, shǒu léng yán wáng shì xī yǒu">妙湛总持不动尊　首楞严王世稀有</div>
+            <div class="mantra-entry" data-pinyin="xiāo wǒ yì jié diān dǎo xiǎng, bù lì sēng qí huò fǎ shēn">销我亿劫颠倒想　不历僧祇获法身</div>
+            <div class="mantra-entry" data-pinyin="yuàn jīn dé guǒ chéng bǎo wáng, huán dù rú shì héng shā zhòng">愿今得果成宝王　还度如是恒沙众</div>
+            <div class="mantra-entry" data-pinyin="jiāng cǐ shēn xīn fèng chén chà, shì zé míng wèi bào fó ēn">将此深心奉尘刹　是则名为报佛恩</div>
+            <div class="mantra-entry" data-pinyin="fú qǐng shì zūn wèi zhèng míng, wǔ zhuó è shì shì xiān rù">伏请世尊为证明　五浊恶世誓先入</div>
+            <div class="mantra-entry" data-pinyin="rú yī zhòng shēng wèi chéng fó, zhōng bù yú cǐ qǔ ní tuán">如一众生未成佛　终不于此取泥洹</div>
+            <div class="mantra-entry" data-pinyin="dà xióng dà lì dà cí bēi, xī gèng shěn chú wēi xì huò">大雄大力大慈悲　希更审除微细惑</div>
+            <div class="mantra-entry" data-pinyin="lìng wǒ zǎo dēng wú shàng jué, yú shí fāng jiè zuò dào chǎng">令我早登无上觉　于十方界坐道场</div>
+            <div class="mantra-entry" data-pinyin="shùn ruò duō xìng kě xiāo wáng, shuò jiā luó xīn wú dòng zhuǎn">舜若多性可销亡　烁迦罗心无动转</div>
+          </div>
+
+          <div class="ritual-text">
+            <div class="mantra-entry" data-pinyin="nā mó cháng zhù shí fāng fó, nā mó cháng zhù shí fāng fǎ, nā mó cháng zhù shí fāng sēng">南无常住十方佛　南无常住十方法　南无常住十方僧</div>
+            <div class="mantra-entry" data-pinyin="nā mó shì jiā móu ní fó, nā mó fó dǐng shǒu léng yán">南无释迦牟尼佛　南无佛顶首楞严</div>
+            <div class="mantra-entry" data-pinyin="nā mó guān shì yīn pú sà, nā mó jīn gāng zàng pú sà">南无观世音菩萨　南无金刚藏菩萨</div>
+          </div>
+
+          <div class="mantra-block">
+            <div class="assembly-title" id="s-1">第 一 会</div>
+
+            <div class="mantra-entry" data-pinyin="nā mó sà dá tuō sū qié duō yē ā là hē dì sān miǎo sān pú tuó xiě">南无萨怛他　苏伽多耶　阿啰诃帝　三藐三菩陀写</div>
+            <div class="mantra-entry" data-pinyin="sà dá tuō fó tuó jù zhī sè ní shàn">萨怛他　佛陀俱胝瑟尼钐</div>
+            <div class="mantra-entry" data-pinyin="nā mó sà pó bó tuó bó dì sà duō pí bì">南无萨婆　勃陀勃地　萨跢鞞弊</div>
+            <div class="mantra-entry" data-pinyin="nā mó sà duō nán sān miǎo sān pú tuó jù zhī nán">南无萨多南　三藐三菩陀　俱知喃</div>
+            <div class="mantra-entry" data-pinyin="suō shě là pó jiā sēng qié nán">娑舍啰婆迦　僧伽喃</div>
+            <div class="mantra-entry" data-pinyin="nā mó lú jī ā luó hàn duō nán">南无卢鸡阿罗汉跢喃</div>
+            <div class="mantra-entry" data-pinyin="nā mó sū lú duō bō nà nán">南无苏卢多波那喃</div>
+            <div class="mantra-entry" data-pinyin="nā mó suō jié lì tuó qié mí nán">南无娑羯唎陀伽弥喃</div>
+            <div class="mantra-entry" data-pinyin="nā mó lú jī sān miǎo qié duō nán">南无卢鸡三藐伽跢喃</div>
+            <div class="mantra-entry" data-pinyin="sān miǎo qié bō là dǐ bō duō nà nán">三藐伽波啰　底波多那喃</div>
+            <div class="mantra-entry" data-pinyin="nā mó tí pó lí sè nǎn">南无提婆离瑟赶</div>
+            <div class="mantra-entry" data-pinyin="nā mó xī tuó yē pí dì yē tuó là lí sè nǎn">南无悉陀耶　毗地耶　陀啰离瑟赶</div>
+            <div class="mantra-entry" data-pinyin="shě bō nú jiē là hē suō hē suō là mó tuō nán">舍波奴　揭啰诃　娑诃娑啰摩他喃</div>
+            <div class="mantra-entry" data-pinyin="nā mó bá là hē mó ní">南无跋啰诃摩尼</div>
+            <div class="mantra-entry" data-pinyin="nā mó yīn tuó là yē">南无因陀啰耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó pó qié pó dì lú tuó là yē wū mó bān dì suō xī yè yē">南无婆伽婆帝　嚧陀啰耶　乌摩般帝　娑醯夜耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó pó qié pó dì nà là yě ná yē">南无婆伽婆帝　那啰野拏耶</div>
+            <div class="mantra-entry" data-pinyin="pán zhē mó hē sān mù tuó là nā mó xī jié lì duō yē">槃遮摩诃三慕陀啰　南无悉羯唎多耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó pó qié pó dì mó hē jiā là yē">南无婆伽婆帝　摩诃迦啰耶</div>
+            <div class="mantra-entry" data-pinyin="dì lì bān là nà qié là pí tuó là bō ná jiā là yē ā dì mù dì">地唎般剌那伽啰　毗陀啰波拏迦啰耶　阿地目帝</div>
+            <div class="mantra-entry" data-pinyin="shī mó shě nà ní pó xī ní mó dá lì qié ná nā mó xī jié lì duō yē">尸摩舍那泥婆悉泥　摩怛唎伽拏　南无悉羯唎多耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó pó qié pó dì duō tuō qié duō jù là yē">南无婆伽婆帝　多他伽跢俱啰耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó bān tóu mó jù là yē nā mó bá shé là jù là yē">南无般头摩俱啰耶　南无跋阇啰俱啰耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó mó ní jù là yē nā mó qié shé jù là yē">南无摩尼俱啰耶　南无伽阇俱啰耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó pó qié pó dì dì lì chá shū là xī nà">南无婆伽婆帝　帝唎茶输啰西那</div>
+            <div class="mantra-entry" data-pinyin="bō là hē là ná là shé yē duō tuō qié duō yē">波啰诃啰拏啰阇耶　跢他伽多耶</div>
+            <div class="mantra-entry" data-pinyin="nā mó pó qié pó dì nā mó ā mí duō pó yē">南无婆伽婆帝　南无阿弥多婆耶</div>
+            <div class="mantra-entry" data-pinyin="duō tuō qié duō yē ā là hē dì sān miǎo sān pú tuó yē">跢他伽多耶　阿啰诃帝　三藐三菩陀耶</div>
+            <div class="mantra-entry" data-pinyin="" style="color:#c9a96e;font-size:0.8em">—— 以上礼敬诸佛菩萨 ——</div>
+            <div class="mantra-entry" data-pinyin="sà dá tuō qié dōu sè ní shàn sà dá duō bān dá lán">萨怛他　伽都瑟尼钐　萨怛多　般怛蓝</div>
+            <div class="mantra-entry" data-pinyin="nā mó ā pó là shì dān bān là dì yáng qí là">南无阿婆啰视耽　般啰帝扬岐啰</div>
+            <div class="mantra-entry" data-pinyin="sà là pó bù duō jiē là hē ní jiē là hē">萨啰婆　部多揭啰诃　尼揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="jié jiā là hē ní bá là bì dì yē chì tuó nǐ">羯迦啰诃尼　跋啰毖地耶叱陀你</div>
+            <div class="mantra-entry" data-pinyin="ā jiā là mì lì zhù bān lì dá là yē níng jiē lì">阿迦啰蜜唎柱　般唎怛啰耶儜揭唎</div>
+            <div class="mantra-entry" data-pinyin="sà là pó pán tuó nà mù chā ní">萨啰婆　槃陀那目叉尼</div>
+            <div class="mantra-entry" data-pinyin="sà là pó tū sè zhà tū xī fá bān nà nǐ fá là ní">萨啰婆　突瑟吒　突悉乏般那你伐啰尼</div>
+            <div class="mantra-entry" data-pinyin="zhě dōu là shī dì nán jié là hē suō hē sà là ruò shé">赭都啰失帝南　羯啰诃娑诃萨啰若阇</div>
+            <div class="mantra-entry" data-pinyin="pí duō bēng suō nà jié lì ā sè zhā bīng shě dì nán">毗多崩娑那羯唎　阿瑟吒冰舍帝南</div>
+            <div class="mantra-entry" data-pinyin="nà chā chà dá là ruò shé bō là sà tuó nà jié lì">那叉刹怛啰若阇　波啰萨陀那羯唎</div>
+            <div class="mantra-entry" data-pinyin="ā sè zhā nán mó hē jiē là hē ruò shé">阿瑟吒南　摩诃揭啰诃若阇</div>
+            <div class="mantra-entry" data-pinyin="pí duō bēng sà nà jié lì sà pó shě dōu lú nǐ pó là ruò shé">毗多崩萨那羯唎　萨婆舍都嚧你婆啰若阇</div>
+            <div class="mantra-entry" data-pinyin="hū lán tū xī fá nán zhē nà shě ní bì shā shě xī dá là">呼蓝突悉乏难遮那舍尼　毖沙舍悉怛啰</div>
+            <div class="mantra-entry" data-pinyin="ā jí ní wū tuó jiā là ruò shé">阿吉尼乌陀迦啰若阇</div>
+            <div class="mantra-entry" data-pinyin="ā bān là shì duō jù là mó hē bān là zhàn chí">阿般啰视多具啰　摩诃般啰战持</div>
+            <div class="mantra-entry" data-pinyin="mó hē dié duō mó hē dì shé mó hē shuì duō shé pó là">摩诃叠多　摩诃帝阇　摩诃税多阇婆啰</div>
+            <div class="mantra-entry" data-pinyin="mó hē bá là pán tuó là pó xī nǐ">摩诃跋啰槃陀啰婆悉你</div>
+            <div class="mantra-entry" data-pinyin="ā lì yē duō là pí lì jù zhī shì pó pí shé yē">阿唎耶多啰　毗唎俱知　誓婆毗阇耶</div>
+            <div class="mantra-entry" data-pinyin="bá shé là mó lǐ dǐ pí shě lú duō bó téng wǎng jiā">跋阇啰摩礼底　毗舍嚧多　勃腾罔迦</div>
+            <div class="mantra-entry" data-pinyin="bá shé là zhì hē nà ā zhē mó là zhì pó bān là zhì duō">跋阇啰制喝那阿遮　摩啰制婆般啰质多</div>
+            <div class="mantra-entry" data-pinyin="bá shé là shàn chí pí shě là zhē shàn duō shě pí tí pó bǔ shì duō">跋阇啰擅持　毗舍啰遮　扇多舍鞞提婆补视多</div>
+            <div class="mantra-entry" data-pinyin="sū mó lú bō mó hē shuì duō ā lì yē duō là">苏摩嚧波　摩诃税多　阿唎耶多啰</div>
+            <div class="mantra-entry" data-pinyin="mó hē pó là ā bān là">摩诃婆啰阿般啰</div>
+            <div class="mantra-entry" data-pinyin="" style="color:#c9a96e;font-size:0.8em">—— 第一会终 ——</div>
+
+            <div class="assembly-title" id="s-2">第 二 会</div>
+
+            <div class="mantra-entry" data-pinyin="wū hū lì sè jiē ná bān là shě xī duō">乌𤙖　唎瑟揭拏　般剌舍悉多</div>
+            <div class="mantra-entry" data-pinyin="sà dá tuō qié dōu sè ní shàn hǔ dōu lú yōng">萨怛他伽都瑟尼钐　虎𤙖都嚧雍</div>
+            <div class="mantra-entry" data-pinyin="zhān pó nà hǔ dōu lú yōng xī dān pó nà">瞻婆那　虎𤙖都嚧雍　悉耽婆那</div>
+            <div class="mantra-entry" data-pinyin="hǔ dōu lú yōng bō luó sè dì yē sān bān chā ná jié là">虎𤙖都嚧雍　波罗瑟地耶三般叉拏羯啰</div>
+            <div class="mantra-entry" data-pinyin="hǔ dōu lú yōng">虎𤙖都嚧雍</div>
+            <div class="mantra-entry" data-pinyin="sà pó yào chā hē là chà suō jiē là hē ruò shé">萨婆药叉喝啰刹娑　揭啰诃若阇</div>
+            <div class="mantra-entry" data-pinyin="pí téng bēng sà nà jié là">毗腾崩萨那羯啰</div>
+            <div class="mantra-entry" data-pinyin="hǔ dōu lú yōng zhě dōu là shī dǐ nán">虎𤙖都嚧雍　者都啰尸底南</div>
+            <div class="mantra-entry" data-pinyin="jiē là hē suō hē sà là nán pí téng bēng sà nà là">揭啰诃娑诃萨啰南　毗腾崩萨那啰</div>
+            <div class="mantra-entry" data-pinyin="hǔ dōu lú yōng là chā pó qié fàn">虎𤙖都嚧雍　啰叉　婆伽梵</div>
+            <div class="mantra-entry" data-pinyin="sà dá tuō qié dōu sè ní shàn bō là diǎn shé jí lì">萨怛他伽都瑟尼钐　波啰点阇吉唎</div>
+            <div class="mantra-entry" data-pinyin="mó hē suō hē sà là bó shù suō hē sà là shì lì shā">摩诃娑诃萨啰　勃树娑诃萨啰室唎沙</div>
+            <div class="mantra-entry" data-pinyin="jù zhī suō hē sà ní dì lì">俱知娑诃萨泥帝隶</div>
+            <div class="mantra-entry" data-pinyin="ā bì tí shì pó lì duō zhà zhà yīng jiā">阿弊提视婆唎多　吒吒甖迦</div>
+            <div class="mantra-entry" data-pinyin="mó hē bá shé lú tuó là dì lì pú pó nà màn chá là">摩诃跋阇嚧陀啰　帝唎菩婆那　曼茶啰</div>
+            <div class="mantra-entry" data-pinyin="wū suō xī dì bó pó dōu mó mó yìn tù nà mó mó xiě">乌𤙖　莎悉帝薄婆都　么么　印兔那么么写</div>
+            <div class="mantra-entry" data-pinyin="" style="color:#c9a96e;font-size:0.8em">—— 第二会终 ——</div>
+
+            <div class="assembly-title" id="s-3">第 三 会</div>
+
+            <div class="mantra-entry" data-pinyin="là shé pó yè zhǔ là bá yè ā qí ní pó yè">啰阇婆夜　主啰跋夜　阿祇尼婆夜</div>
+            <div class="mantra-entry" data-pinyin="wū tuó jiā pó yè pí shā pó yè shě sà duō là pó yè">乌陀迦婆夜　毗沙婆夜　舍萨多啰婆夜</div>
+            <div class="mantra-entry" data-pinyin="pó là zhuó jié là pó yè tū sè chā pó yè ā shě nǐ pó yè">婆啰斫羯啰婆夜　突瑟叉婆夜　阿舍你婆夜</div>
+            <div class="mantra-entry" data-pinyin="ā jiā là mì lì zhù pó yè">阿迦啰蜜唎柱婆夜</div>
+            <div class="mantra-entry" data-pinyin="tuó là ní bù mí jiàn bō qié bō tuó pó yè">陀啰尼部弥剑波伽波陀婆夜</div>
+            <div class="mantra-entry" data-pinyin="wū là jiā pó duō pó yè là shé tán chá pó yè">乌啰迦婆多婆夜　剌阇坛茶婆夜</div>
+            <div class="mantra-entry" data-pinyin="nà qié pó yè pí tiáo dá pó yè sū bō là ná pó yè">那伽婆夜　毗条怛婆夜　苏波啰拏婆夜</div>
+            <div class="mantra-entry" data-pinyin="yào chā jiē là hē là chā sī jiē là hē bì lì duō jiē là hē">药叉揭啰诃　啰叉私揭啰诃　毕唎多揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="pí shě zhē jiē là hē bù duō jiē là hē">毗舍遮揭啰诃　部多揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="jiū pán chá jiē là hē bǔ dān nà jiē là hē">鸠槃茶揭啰诃　补单那揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="jiā zhà bǔ dān nà jiē là hē xī qián dù jiē là hē">迦吒补单那揭啰诃　悉乾度揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="ā bō xī mó là jiē là hē wū tán mó tuó jiē là hē">阿播悉摩啰揭啰诃　乌檀摩陀揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="chē yè jiē là hē xī lì pó dì jiē là hē">车夜揭啰诃　醯唎婆帝揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="shè duō hē lì nán jiē pó hē lì nán lú dì là hē lì nán">社多诃唎南　揭婆诃唎南　嚧地啰诃唎南</div>
+            <div class="mantra-entry" data-pinyin="máng suō hē lì nán mí tuó hē lì nán mó shé hē lì nán">忙娑诃唎南　谜陀诃唎南　摩阇诃唎南</div>
+            <div class="mantra-entry" data-pinyin="shé duō hē lì nǚ shì bǐ duō hē lì nán pí duō hē lì nán">阇多诃唎女　视比多诃唎南　毗多诃唎南</div>
+            <div class="mantra-entry" data-pinyin="pó duō hē lì nán ā shū zhē hē lì nǚ zhì duō hē lì nǚ">婆多诃唎南　阿输遮诃唎女　质多诃唎女</div>
+            <div class="mantra-entry" data-pinyin="dì shàn sà pí shàn sà pó jiē là hē nán">帝钐萨鞞钐　萨婆揭啰诃南</div>
+            <div class="mantra-entry" data-pinyin="" style="color:#c9a96e;font-size:0.8em">—— 诸神鬼众皈命段 ——</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yē shé chēn tuó yè mí jī là yè mí">毗陀夜阇嗔陀夜弥　鸡啰夜弥</div>
+            <div class="mantra-entry" data-pinyin="bō lì bá là zhě jiā qì lì dān">波唎跋啰者迦讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí chá yǎn ní qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　茶演尼讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí mó hē bān shū bān dá yè lú tuó là qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　摩诃般输般怛夜　嚧陀啰讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí nà là yè ná qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　那啰夜拏讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí dá duǒ qié lú chá xī qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　怛埵伽嚧茶西讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí mó hē jiā là mó dá lì qié ná qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　摩诃迦啰摩怛唎伽拏讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí jiā bō lì jiā qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　迦波唎迦讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí shé yē jié là mó dù jié là sà pó là tuō suō dá nà qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　阇耶羯啰摩度羯啰　萨婆啰他娑达那讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí zhě duō là pó qí nǐ qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　赭咄啰婆耆你讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí pí lì yáng qì lì zhī nán tuó jī shā là qié ná bān dì suǒ xī yè qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　毗唎羊讫唎知　难陀鸡沙啰伽拏般帝　索醯夜讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí nà jiē nà shě là pó ná qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　那揭那舍啰婆拏讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí ā luó hàn qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　阿罗汉讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí pí duō là qié qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　毗多啰伽讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí bá shé là bō nǐ jù xī yè jù xī yè jiā dì bān dì qì lì dān">毗陀夜阇嗔陀夜弥　鸡啰夜弥　跋阇啰波你　具醯夜具醯夜　迦地般帝讫唎担</div>
+            <div class="mantra-entry" data-pinyin="pí tuó yè shé chēn tuó yè mí jī là yè mí là chā wǎng pó qié fàn yìn tù nà mó mó xiě">毗陀夜阇嗔陀夜弥　鸡啰夜弥　啰叉罔　婆伽梵　印兔那么么写</div>
+            <div class="mantra-entry" data-pinyin="" style="color:#c9a96e;font-size:0.8em">—— 第三会终 ——</div>
+
+            <div class="assembly-title" id="s-4">第 四 会</div>
+
+            <div class="mantra-entry" data-pinyin="pó qié fàn sà dá duō bān dá là">婆伽梵　萨怛多般怛啰</div>
+            <div class="mantra-entry" data-pinyin="nā mó cuì dōu dì ā xī duō nà là là jiā">南无粹都帝　阿悉多那啰剌迦</div>
+            <div class="mantra-entry" data-pinyin="bō là pó xī pǔ zhà pí jiā sà dá duō bō dì lì">波啰婆悉普吒　毗迦萨怛多钵帝唎</div>
+            <div class="mantra-entry" data-pinyin="shí fó là shí fó là tuó là tuó là pín tuó là pín tuó là chēn tuó chēn tuó">什佛啰什佛啰　陀啰陀啰　频陀啰频陀啰　嗔陀嗔陀</div>
+            <div class="mantra-entry" data-pinyin="hǔ hǔ pàn zhā pàn zhā pàn zhā pàn zhā pàn zhā suō hē">虎𤙖虎𤙖　泮吒泮吒泮吒泮吒泮吒　娑诃</div>
+            <div class="mantra-entry" data-pinyin="xī xī pàn ā móu jiā yē pàn">醯醯泮　阿牟迦耶泮</div>
+            <div class="mantra-entry" data-pinyin="ā bō là tí hē duō pàn pó là bō là tuó pàn">阿波啰提诃多泮　婆啰波啰陀泮</div>
+            <div class="mantra-entry" data-pinyin="ā sù là pí tuó là bō jiā pàn">阿素啰毗陀啰波迦泮</div>
+            <div class="mantra-entry" data-pinyin="sà pó tí pí bì pàn sà pó nà qié bì pàn">萨婆提鞞弊泮　萨婆那伽弊泮</div>
+            <div class="mantra-entry" data-pinyin="sà pó yào chā bì pàn sà pó qián tà pó bì pàn">萨婆药叉弊泮　萨婆乾闼婆弊泮</div>
+            <div class="mantra-entry" data-pinyin="sà pó bǔ dān nà bì pàn jiā zhà bǔ dān nà bì pàn">萨婆补丹那弊泮　迦吒补丹那弊泮</div>
+            <div class="mantra-entry" data-pinyin="sà pó tū láng zhǐ dì bì pàn sà pó tū sè bǐ lí qì sè dì bì pàn">萨婆突狼枳帝弊泮　萨婆突涩比犁讫瑟帝弊泮</div>
+            <div class="mantra-entry" data-pinyin="sà pó shí pó lì bì pàn sà pó ā bō xī mó lí bì pàn">萨婆什婆利弊泮　萨婆阿播悉摩犁弊泮</div>
+            <div class="mantra-entry" data-pinyin="sà pó shě là pó ná bì pàn sà pó dì dì jī bì pàn">萨婆舍啰婆拏弊泮　萨婆地帝鸡弊泮</div>
+            <div class="mantra-entry" data-pinyin="sà pó dá mó tuó jì bì pàn sà pó pí tuó yē là shì zhē lí bì pàn">萨婆怛摩陀继弊泮　萨婆毗陀耶啰誓遮犁弊泮</div>
+            <div class="mantra-entry" data-pinyin="shé yè jié là mó dù jié là sà pó là tuō suō tuó jī bì pàn">阇夜羯啰摩度羯啰　萨婆啰他娑陀鸡弊泮</div>
+            <div class="mantra-entry" data-pinyin="pí dì yè zhē lì bì pàn zhě dōu là fù qí nǐ bì pàn">毗地夜遮唎弊泮　者都啰缚耆你弊泮</div>
+            <div class="mantra-entry" data-pinyin="bá shé là jù mó lì pí tuó yè là shì bì pàn">跋阇啰俱摩唎　毗陀夜啰誓弊泮</div>
+            <div class="mantra-entry" data-pinyin="mó hē bō là dīng yáng yì qí lì bì pàn bá shé là shāng jié là yè bō là zhàng qí là shé yē pàn">摩诃波啰丁羊乂耆唎弊泮　跋阇啰商羯啰夜　波啰丈耆啰阇耶泮</div>
+            <div class="mantra-entry" data-pinyin="mó hē jiā là yè mó hē mò dá lì jiā ná nā mó suō jié lì duō yè pàn">摩诃迦啰夜　摩诃末怛唎迦拏　南无娑羯唎多夜泮</div>
+            <div class="mantra-entry" data-pinyin="bì sè ná bì yì pàn bó là hē móu ní yì pàn ā qí ní yì pàn">毖瑟拏婢曳泮　勃啰诃牟尼曳泮　阿耆尼曳泮</div>
+            <div class="mantra-entry" data-pinyin="mó hē jié lì yì pàn jié là tán chí yì pàn miè dá lì yì pàn">摩诃羯唎曳泮　羯啰檀迟曳泮　蔑怛唎曳泮</div>
+            <div class="mantra-entry" data-pinyin="láo dá lì yì pàn zhē wén chá yì pàn jié luó là dá lì yì pàn jiā bān lì yì pàn">唠怛唎曳泮　遮文茶曳泮　羯逻啰怛唎曳泮　迦般唎曳泮</div>
+            <div class="mantra-entry" data-pinyin="ā dì mù zhì duō jiā shī mó shě nà pó sī nǐ yì pàn">阿地目质多迦尸摩舍那　婆私你曳泮</div>
+            <div class="mantra-entry" data-pinyin="yǎn jí zhì sà duǒ pó xiě mó mó yìn tù nà mó mó xiě">演吉质　萨埵婆写　么么印兔那么么写</div>
+            <div class="mantra-entry" data-pinyin="" style="color:#c9a96e;font-size:0.8em">—— 第四会终 ——</div>
+
+            <div class="assembly-title" id="s-5">第 五 会 · 楞严咒心</div>
+
+            <div class="mantra-entry" data-pinyin="tū sè zhà zhì duō ā mò dá lì zhì duō">突瑟吒质多　阿末怛唎质多</div>
+            <div class="mantra-entry" data-pinyin="wū shé hē là qié pó hē là lú dì là hē là">乌阇诃啰　伽婆诃啰　嚧地啰诃啰</div>
+            <div class="mantra-entry" data-pinyin="pó suō hē là mó shé hē là shé duō hē là">婆娑诃啰　摩阇诃啰　阇多诃啰</div>
+            <div class="mantra-entry" data-pinyin="shì bì duō hē là bá lüè yè hē là qián tuó hē là">视毖多诃啰　跋略夜诃啰　乾陀诃啰</div>
+            <div class="mantra-entry" data-pinyin="bù shǐ bō hē là pō là hē là pó xiě hē là">布史波诃啰　颇啰诃啰　婆写诃啰</div>
+            <div class="mantra-entry" data-pinyin="bān bō zhì duō tū sè zhà zhì duō láo tuó là zhì duō">般波质多　突瑟吒质多　唠陀啰质多</div>
+            <div class="mantra-entry" data-pinyin="yào chā jiē là hē là chà suō jiē là hē bì lì duō jiē là hē">药叉揭啰诃　啰刹娑揭啰诃　闭隶多揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="pí shě zhē jiē là hē bù duō jiē là hē jiū pán chá jiē là hē">毗舍遮揭啰诃　部多揭啰诃　鸠槃茶揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="xī qián tuó jiē là hē wū dá mó tuó jiē là hē chē yè jiē là hē">悉乾陀揭啰诃　乌怛摩陀揭啰诃　车夜揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="ā bō sà mó là jiē là hē zhái qū gé chá qí ní jiē là hē lì fó dì jiē là hē">阿播萨摩啰揭啰诃　宅袪革茶耆尼揭啰诃　唎佛帝揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="shé mí jiā jiē là hē shě jù ní jiē là hē mǔ tuó là nán dì jiā jiē là hē ā lán pó jiē là hē qián dù bō ní jiē là hē">阇弥迦揭啰诃　舍俱尼揭啰诃　姥陀啰难地迦揭啰诃　阿蓝婆揭啰诃　乾度波尼揭啰诃</div>
+            <div class="mantra-entry" data-pinyin="shí fá là yīn jiā xī jiā zhuì dì yào jiā dá lì dì yào jiā zhě tū tuō jiā">什伐啰堙迦醯迦　坠帝药迦　怛隶帝药迦　者突托迦</div>
+            <div class="mantra-entry" data-pinyin="ní tí shí fá là bì shàn mó shí fá là bó dǐ jiā bí dǐ jiā shì lì sè mì jiā">尼提什伐啰毖钐摩什伐啰　薄底迦　鼻底迦　室隶瑟密迦</div>
+            <div class="mantra-entry" data-pinyin="suō nǐ bān dì jiā sà pó shí fá là shì lú jí dì mò tuó pí dá lú zhì jiàn">娑你般帝迦　萨婆什伐啰　室嚧吉帝　末陀鞞达嚧制剑</div>
+            <div class="mantra-entry" data-pinyin="ā qǐ lú qián mù qū lú qián jié lì tū lú qián jiē là hē jiē lán">阿绮嚧钳　目佉嚧钳　羯唎突嚧钳　揭啰诃揭蓝</div>
+            <div class="mantra-entry" data-pinyin="jié ná shū lán dàn duō shū lán qì lì yè shū lán mò mó shū lán bá lì shì pó shū lán">羯拏输蓝　惮多输蓝　迄唎夜输蓝　末么输蓝　跋唎室婆输蓝</div>
+            <div class="mantra-entry" data-pinyin="bì lì sè zhà shū lán wū tuó là shū lán jié zhī shū lán bá xī dì shū lán wū lú shū lán cháng qié shū lán hē xī duō shū lán bá tuó shū lán">毖栗瑟吒输蓝　乌陀啰输蓝　羯知输蓝　跋悉帝输蓝　邬嚧输蓝　常伽输蓝　喝悉多输蓝　跋陀输蓝</div>
+            <div class="mantra-entry" data-pinyin="suō fáng àng qié bān là zhàng qié shū lán bù duō bì duō chá chá qí ní shí pó là">娑房盎伽般啰丈伽输蓝　部多毖哆茶　茶耆尼什婆啰</div>
+            <div class="mantra-entry" data-pinyin="tuó tū lú jiā jiàn duō lú jí zhī pó lù duō pí sà bān lú hē líng qié shū shā dá là suō nà jié là pí shā yù jiā ā qí ní wū tuó jiā">陀突嚧迦建咄嚧吉知婆路多毗　萨般嚧诃凌伽　输沙怛啰娑那羯啰　毗沙喻迦　阿耆尼乌陀迦</div>
+            <div class="mantra-entry" data-pinyin="mò là pí là jiàn duō là ā jiā là mì lì duō dá liǎn bù jiā dì lì là zhà bì lì sè zhì jiā sà pó nà jù là">末啰鞞啰建跢啰　阿迦啰蜜唎咄怛敛部迦　地栗剌吒　毖唎瑟质迦　萨婆那俱啰</div>
+            <div class="mantra-entry" data-pinyin="sì yǐn qié bì jiē là lì yào chā dá là chú mò là shì fèi dì shàn suō pí shàn xī dá duō bō dá là">肆引伽弊揭啰唎药叉怛啰刍　末啰视吠帝钐娑鞞钐　悉怛多钵怛啰</div>
+            <div class="mantra-entry" data-pinyin="mó hē bá shé lú sè ní shàn mó hē bān lài zhàng qí lán">摩诃跋阇嚧瑟尼钐　摩诃般赖丈耆蓝</div>
+            <div class="mantra-entry" data-pinyin="yè bō tū tuó shě yù shé nà biàn dá lì ná pí tuó yē pán tán jiā lú mí">夜波突陀舍喻阇那　辫怛隶拏　毗陀耶槃昙迦嚧弥</div>
+            <div class="mantra-entry" data-pinyin="dì shū pán tán jiā lú mí bān là pí tuó pán tán jiā lú mí">帝殊槃昙迦嚧弥　般啰毗陀槃昙迦嚧弥</div>
+
+            <!-- 楞严咒心 -->
+            <div class="mantra-entry" id="s-heart" data-pinyin="duō zhí tuō ōng ā nà lì pí shě tí pí là bá shé là tuó lì pán tuó pán tuó nǐ bá shé là bàng ní pàn hǔ dōu lú wèng pàn suō pó hē" style="font-size:1.2em; color:#f0d78c; font-weight:700; margin:20px 0;">
+            哆姪他　唵　阿那隶　毗舍提<br>鞞啰跋阇啰陀唎　槃陀槃陀你<br>跋阇啰谤尼泮　虎𤙖都嚧瓮泮　莎婆诃
+            </div>
+            <div class="mantra-entry" data-pinyin="" style="color:#c9a96e;font-size:0.8em">—— 大佛顶首楞严神咒 终 ——</div>
+          </div>
+        </div>
+
+        <!-- ========== 经文详解 ========== -->
+        <div class="sutra-section" id="section-commentary">
+          <div class="sutra-title">
+            <h2>经文详解</h2>
+            <p class="translator">辅助学习 · 仅供参考</p>
+            <div class="decorative-line"></div>
+          </div>
+
+          <!-- 金刚经总论 -->
+          <div class="commentary-card" id="c-diamond-intro">
+            <h3>一、金刚经总论</h3>
+            <div class="card-subtitle">经名释义 · 核心思想 · 历史地位</div>
+            <p><strong>经名释义：</strong>「金刚般若波罗蜜经」，梵文 Vajracchedikā-prajñā-pāramitā Sūtra。</p>
+            <p><span class="key-concept">金刚</span>（vajra）：最坚硬之物，能断一切而不为所断，比喻般若智慧锐利无碍，能斩断一切烦恼执着。</p>
+            <p><span class="key-concept">般若</span>（prajñā）：超越世俗智慧的出世大智慧，洞见诸法实相。</p>
+            <p><span class="key-concept">波罗蜜</span>（pāramitā）：到彼岸，即从生死烦恼的此岸，度到涅槃解脱的彼岸。</p>
+            <p><strong>核心思想：</strong>全经围绕须菩提的两问展开——「应云何住？云何降伏其心？」佛陀的回答贯穿一条主线：<span class="key-concept">缘起性空</span>、<span class="key-concept">无住生心</span>。既不执着于「有」，也不沉溺于「空」，于一切境界中心无所住，而行一切善法。</p>
+            <p><strong>历史地位：</strong>本经由后秦鸠摩罗什法师于弘始六年（404年）译出，是大乘佛教般若部的重要经典。禅宗自六祖惠能闻「应无所住而生其心」开悟后，金刚经取代楞伽经成为禅宗印心之经，在中国佛教史上影响深远。</p>
+          </div>
+
+          <div class="section-divider">金刚经 · 重点品讲解</div>
+
+          <!-- 第一品 -->
+          <div class="commentary-card" id="c-d01">
+            <h3>法会因由分第一 · 佛陀的一天</h3>
+            <div class="card-subtitle">平常心是道</div>
+            <p>经文开头描述佛陀着衣持钵、入舍卫城乞食、洗足敷座——全是日常琐事，毫无神通异象。这个「平凡的序分」历来被祖师大德拈提：</p>
+            <p>佛陀在穿衣吃饭中示现大道。真理不在别处，就在日寻常之中。能把平常事做得心无挂碍、如法如律，便是修行。</p>
+            <p><strong>要点：</strong>般若智慧并非玄妙高远，而是从最平实的生活中透出。一看开头不懂以为是流水账，懂了才知这是「放光动地」——以全身放光说法。</p>
+          </div>
+
+          <!-- 第三品 -->
+          <div class="commentary-card" id="c-d03">
+            <h3>大乘正宗分第三 · 如何发心</h3>
+            <div class="card-subtitle">灭度一切众生，而无有一众生实灭度者</div>
+            <p>须菩提问：「发阿耨多罗三藐三菩提心，应云何住？云何降伏其心？」佛陀答：应度一切众生入无余涅槃，但心中不可执「我度了众生」之相。</p>
+            <p>这是全经第一次展现「<strong>即相离相</strong>」的思维模式：度生的事业要认真做，度生的执着要彻底无。</p>
+            <div class="verse-quote">我皆令入无余涅槃而灭度之。如是灭度无量无数无边众生，实无众生得灭度者。</div>
+            <p><strong>要点：</strong>若有我相、人相、众生相、寿者相，即非菩萨。四相是全经反复破斥的四种执着——对自我、对象、群体、时间的实有执取。</p>
+          </div>
+
+          <!-- 第四品 -->
+          <div class="commentary-card" id="c-d04">
+            <h3>妙行无住分第四 · 无住布施</h3>
+            <div class="card-subtitle">应无所住，行于布施</div>
+            <p>佛陀教导菩萨布施时应不住色、声、香、味、触、法。如同人行虚空，日月照山河——光明遍及万物却不留痕迹。</p>
+            <p><strong>「无住」不是不做，而是做而不执。</strong>布施、持戒、忍辱一切善行照常精进，只是心中不盘算回报、不沾沾自喜、不牵挂功德的相状。</p>
+            <div class="verse-quote">菩萨于法，应无所住，行于布施。所谓不住色布施，不住声香味触法布施。</div>
+            <p><strong>要点：</strong>东方虚空可思量否？不也，世尊！无住布施的福德，如虚空一样不可限量。</p>
+          </div>
+
+          <!-- 第五品 -->
+          <div class="commentary-card" id="c-d05">
+            <h3>如理实见分第五 · 可以身相见如来不</h3>
+            <div class="card-subtitle">凡所有相，皆是虚妄</div>
+            <p>须菩提问：可以依佛陀的三十二相见到真正的如来吗？答：不可。如来所说的身相，即非身相。</p>
+            <div class="verse-quote">凡所有相，皆是虚妄。若见诸相非相，即见如来。</div>
+            <p>这是金刚经最著名的偈颂之一。「相」是一切因缘和合而现的样子——容貌、名望、境界、感受皆然。它们并非不存在，而是没有独立不变的本质（无自性），故说「虚妄」。</p>
+            <p><strong>要点：</strong>「若见诸相非相，即见如来」——能在一切现象显现的当下，照见其缘起无自性，即是见到真理本身。不是要灭掉现象才见实相，而是在现象中见实相。</p>
+          </div>
+
+          <!-- 第十品 -->
+          <div class="commentary-card" id="c-d10">
+            <h3>庄严净土分第十 · 应无所住而生其心</h3>
+            <div class="card-subtitle">六祖开悟处</div>
+            <p>佛陀问：菩萨庄严佛土不？答：不也。庄严佛土者，即非庄严，是名庄严。</p>
+            <div class="verse-quote">诸菩萨摩诃萨应如是生清净心，不应住色生心，不应住声香味触法生心，应无所住而生其心。</div>
+            <p><strong>「应无所住而生其心」</strong>——六祖惠能闻此句言下大悟，说出「何期自性本自清净」等五句。这句话是全经的经眼：</p>
+            <p><span class="key-concept">无所住</span>：心不粘着在任何境界上——不恋过去、不迎未来、不执当下。<br>
+            <span class="key-concept">生其心</span>：心并非死寂顽空，依然活泼起用——照样见闻觉知、行善利生。</p>
+            <p><strong>要点：</strong>无住与生心是一体两面。只无住不生心，是枯木死灰；只生心而无住，是随境流转。二者同时成立，才是般若。</p>
+          </div>
+
+          <!-- 第十四品 -->
+          <div class="commentary-card" id="c-d14">
+            <h3>离相寂灭分第十四 · 忍辱与离相</h3>
+            <div class="card-subtitle">离一切相，则名诸佛</div>
+            <p>本品是全经转折点（下半部开始），篇幅最长。佛陀自述往昔为忍辱仙人时，被歌利王节节肢解，因「无我相、无人相、无众生相、无寿者相」，故无嗔恨。</p>
+            <div class="verse-quote">离一切诸相，则名诸佛。……如我昔为歌利王割截身体，我于尔时，无我相、无人相、无众生相、无寿者相。何以故？我于往昔节节支解时，若有我相、人相、众生相、寿者相，应生嗔恨。</div>
+            <p>又提出著名的「<strong>信解</strong>」问题：末世众生闻此经能生实信否？佛陀说，有人于无量佛所种诸善根，闻是章句乃至一念生净信者，如来悉知悉见。</p>
+            <p><strong>要点：</strong>忍辱波罗蜜的极致不是咬牙硬忍，而是从根本上照见无我——没有能忍的我、所忍的境，嗔恨无处生起。离一切相，即名诸佛。</p>
+          </div>
+
+          <!-- 第十八品 -->
+          <div class="commentary-card" id="c-d18">
+            <h3>一体同观分第十八 · 如来五眼</h3>
+            <div class="card-subtitle">肉眼 · 天眼 · 慧眼 · 法眼 · 佛眼</div>
+            <p>佛陀具五眼观照世界：</p>
+            <p><span class="key-concept">肉眼</span>——凡夫所见，局限粗色；<br>
+            <span class="key-concept">天眼</span>——天人及修禅所得，见远近明暗、粗细诸色；<br>
+            <span class="key-concept">慧眼</span>——二乘圣者照见空性之智；<br>
+            <span class="key-concept">法眼</span>——菩萨观缘起、知一切法门、度众生之智；<br>
+            <span class="key-concept">佛眼</span>——圆满一切，无所不见、无所不知。</p>
+            <p>随后论恒河沙数佛世界中众生若干种心，如来悉知：「<strong>过去心不可得，现在心不可得，未来心不可得。</strong>」</p>
+            <p><strong>要点：</strong>三心不可得是参禅著名话头。念头刹那生灭，觅其实体了不可得——认识到这一点，便知要「降伏其心」的那个心，本身就抓不住，何须降伏？</p>
+          </div>
+
+          <!-- 第二十六品 -->
+          <div class="commentary-card" id="c-d26">
+            <h3>法身非相分第二十六 · 不可以三十二相见如来</h3>
+            <div class="card-subtitle">若以色见我，以音声求我</div>
+            <div class="verse-quote">若以色见我，以音声求我，是人行邪道，不能见如来。</div>
+            <p>这首偈常被误解为否定佛像、否定礼拜。其实它破斥的是「执着」而非「形相」——把佛像当作佛的全部、把音声当作法的实体，则是背道而驰。</p>
+            <p>与第五品呼应，但更进一层：第五品说「凡所有相皆是虚妄」，此处直接指明以色声求佛是「行邪道」。佛的法身遍一切处，不局限于任何形相。</p>
+            <p><strong>要点：</strong>借相修心可，执相为实则不可。像是指月之指，见月须忘指。</p>
+          </div>
+
+          <!-- 第三十二品 -->
+          <div class="commentary-card" id="c-d32">
+            <h3>应化非真分第三十二 · 一切有为法</h3>
+            <div class="card-subtitle">全经终结偈</div>
+            <div class="verse-quote">一切有为法，如梦幻泡影，如露亦如电，应作如是观。</div>
+            <p>六喻（梦幻泡影露电）总摄全经宗旨：<span class="key-concept">如梦</span>——境不真实；<span class="key-concept">如幻</span>——事无实体；<span class="key-concept">如泡</span>——暂时假聚；<span class="key-concept">如影</span>——随缘显现；<span class="key-concept">如露</span>——须臾即逝；<span class="key-concept">如电</span>——刹那不住。</p>
+            <p>「应作如是观」——不是消极虚无，而是以这种洞见面对生活：认真做事而不被结果捆绑，深情待人而不因失去崩溃。</p>
+            <p><strong>要点：</strong>四句偈地位极重——全经多处言「乃至四句偈等，为他人说，其福胜彼」。受持读诵、为人演说此经乃至四句偈，功德无量。</p>
+          </div>
+
+          <div class="section-divider">楞严咒 · 总论与结构</div>
+
+          <!-- 楞严咒总论 -->
+          <div class="commentary-card" id="c-shura-intro">
+            <h3>楞严咒缘起与功德</h3>
+            <div class="card-subtitle">大佛顶 · 如来密因 · 修证了义</div>
+            <p><strong>出处：</strong>《大佛顶如来密因修证了义诸菩萨万行首楞严经》卷七。唐代般剌密谛法师译。此咒是佛陀应阿难之难而说。</p>
+            <p><strong>缘起：</strong>阿难外出乞食，遭遇摩登伽女以娑毗迦罗先梵天咒迷惑，将毁戒体。佛陀顶放百宝无畏光明，光中出生千叶宝莲，化身佛宣说楞严神咒，敕文殊菩萨持咒往护，提奖阿难归来。由此引出整部楞严经。</p>
+            <p><strong>名义：</strong>「首楞严」意为「一切事究竟坚固」——一切修行法门中的王。此咒被称为<span class="key-concept">咒中之王</span>，全称「佛顶光明摩诃萨怛多般怛啰无上神咒」，意为「大白伞盖」，象征佛力覆盖护佑一切众生。</p>
+            <p><strong>经中所述功德（卷七节要）：</strong></p>
+            <p>· 十方如来因此咒心，得成无上正遍知觉<br>
+            · 若诸世界随所国土所有众生，随国所生桦皮贝叶纸素白氎书写此咒，贮于香囊，是人心昏未能诵忆，或带身上，或书宅中，当知是人尽其生年，一切诸毒所不能害<br>
+            · 是善男子持此咒时，设犯禁戒于未受时，持咒之后众破戒罪无问轻重一时消灭<br>
+            · 纵经饮酒、食啖五辛种种不净，一切诸佛菩萨金刚天仙鬼神不将为过<br>
+            · 未求生男女者，持咒可求；命终之后随愿往生十方国土</p>
+            <p><strong>诵读须知：</strong>经云持此咒者应「严持戒律」，恭敬至诚。咒为密语，历来「翻音不翻义」，但持诵音声本身即具加持力。本站所配拼音为汉语近似音，供养参考，宜依止具德善知识学习梵音传承。</p>
+          </div>
+
+          <!-- 五会结构 -->
+          <div class="commentary-card" id="c-shura-structure">
+            <h3>五会结构大意</h3>
+            <div class="card-subtitle">四百二十七句 · 五会纶贯</div>
+            <p>楞严咒共2620字（一说2762字），427句（一说554句），分为五会。传统依「吡嚧释尊五会楞严」判分如下：</p>
+            <p><strong>第一会（礼敬诸佛部）</strong>——从「南无楞严会上佛菩萨」至「婆伽梵萨怛多般怛啰」之前。广皈命娑婆世界及十方无量诸佛、菩萨、罗汉、圣众。此会确立咒之总体皈命对象，如朝廷之颁诏天下。</p>
+            <p><strong>第二会（释尊应化会 / 金刚部）</strong>——以「乌𤙖」等圣咒音为首。召请金刚藏菩萨及其眷属，奉行佛敕，护持行者。「虎𤙖都嚧雍」为金刚藏心咒，普令金刚部众悉皆召集，降伏魔军。</p>
+            <p><strong>第三会（观音狮吼会 / 降伏法）</strong>——以「啰阇婆夜」起首。列举药叉、啰叉、毕唎多、毗舍遮、部多、鸠槃茶等一切天魔鬼神之名而降伏之，令其皈命正法、不敢作害。「毗陀夜阇嗔陀夜弥」句式反复出现，意为「明王咒法警觉令伏」。</p>
+            <p><strong>第四会（金刚藏消灾会 / 息灾法）</strong>——以「婆伽梵萨怛多般怛啰」起首。大白伞盖显现，以「泮吒」破恶之声，遍催折一切天魔外道、妖精鬼魅，息灾除难，护佑持咒者眷属安宁。「弊泮」句群层层摧破，气势如金刚杵捣魔宫。</p>
+            <p><strong>第五会（释迦文佛会 / 楞严咒心）</strong>——从「突瑟吒质多」至咒末。总结前四会，因果圆满。「哆姪他」以下即「楞严咒心」，为全咒之心髓，可单独持诵。咒心直指佛顶光明本体，持之与持全咒功德无二。</p>
+            <p><strong>判会要诀：</strong>五会即「信、进、念、定、慧」五位的密说，亦是「皈命 → 召集 → 降伏 → 息灾 → 成就」的修持历程。</p>
+          </div>
+
+          <!-- 咒心详解 -->
+          <div class="commentary-card" id="c-shura-heart">
+            <h3>楞严咒心详解</h3>
+            <div class="card-subtitle">哆姪他 · 唵 · 阿那隶 …… 莎婆诃</div>
+            <div class="verse-quote">哆姪他　唵　阿那隶　毗舍提　鞞啰跋阇啰陀唎　槃陀槃陀你　跋阇啰谤尼泮　虎𤙖都嚧瓮泮　莎婆诃</div>
+            <p><strong>逐句略释（依传统汉传注疏，仅供理解方向）：：</strong></p>
+            <p>· <strong>哆姪他</strong>（tadyathā）——「即说咒曰」，咒心开启之语<br>
+            · <strong>唵</strong>（oṃ）——皈命三身，咒语之母，一切咒首总持<br>
+            · <strong>阿那隶</strong>（anale）——遍一切处，火大之义，烧一切烦恼薪<br>
+            · <strong>毗舍提</strong>（viśada）——普遍清净，离垢光明<br>
+            · <strong>鞞啰跋阇啰陀唎</strong>（vajra-dharī）——金刚执持者，坚固不坏<br>
+            · <strong>槃陀槃陀你</strong>（bandha bandhani）——结缚、结护，令一切魔障被缚不能动<br>
+            · <strong>跋阇啰谤尼泮</strong>（vajra-pani phaṭ）——金刚手破障，一「泮」字碎诸恶<br>
+            · <strong>虎𤙖都嚧瓮泮</strong>（hūṃ duruṁ phaṭ）——金刚忿怒音，摧碎一切魔军<br>
+            · <strong>莎婆诃</strong>（svāhā）——成就吉祥，咒终总持</p>
+            <p><strong>要点：</strong>咒心虽短，义含全咒。日常无暇持全咒者，可专诵咒心，但须至诚恭敬，身心清净。密咒之义，诸家注疏互有出入，以持诵音声与信心为要，不宜执文字而解。</p>
+          </div>
+
+          <!-- 修持要点 -->
+          <div class="commentary-card" id="c-practice">
+            <h3>修持要点</h3>
+            <div class="card-subtitle">读诵 · 受持 · 起修之次第</div>
+            <ol class="practice-list">
+              <li><strong>环境与身心：</strong>择清净处，净手洁案。端身正坐，如对佛面。散乱心读诵功德亦不唐捐，但以专注恭敬为要。</li>
+              <li><strong>诵经仪轨：</strong>金刚经前可诵「开经偈」（无上甚深微妙法，百千万劫难遭遇，我今见闻得受持，愿解如来真实义）；楞严咒前应三称「南无楞严会上佛菩萨」，并诵楞严偈（妙湛总持不动尊……）。</li>
+              <li><strong>金刚经读法：</strong>不贪快、不求解义先行。先熟读成诵，义理会随读诵渐次显现。读到「应无所住而生其心」「凡所有相皆是虚妄」等句，宜稍作停留，回光返照。</li>
+              <li><strong>楞严咒读法：</strong>初学可开注音逐句跟读，每日定课一遍（约20分钟）。熟后可尝试背诵五会。咒音不准不必焦虑，诚心为上；有条件可依止善知识校正梵音。</li>
+              <li><strong>定课建议：</strong>晨起诵咒（提神醒心），晚诵金刚经（静心观照）。或每日金刚经一卷 + 咒心21遍，功不唐捐。</li>
+              <li><strong>回向：</strong>诵毕合掌回向——愿以此功德，庄严佛净土；上报四重恩，下济三途苦；若有见闻者，悉发菩提心；尽此一报身，同生极乐国。（回向偈可依自宗仪轨调整）</li>
+              <li><strong>心要：</strong>金刚经破执——读之令心空；楞严咒立护——诵之令身安。一经一咒，空有双运，性修不二。此正是本站并立两部经典的用意。</li>
+            </ol>
+          </div>
+
+          <div class="commentary-intro" style="margin-top:30px">
+            <p style="text-align:center;color:#8a7050;font-size:0.85em">—— 详解终 · 愿见闻者智慧增长，菩提不退 ——</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- 右护法：伽蓝菩萨 -->
+    <aside class="guardian-panel">
+      <div class="guardian-frame">
+        <div class="glow"></div>
+        <svg class="guardian-svg" viewBox="0 0 180 420">
+          <circle cx="90" cy="55" r="30" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="1.5"/>
+          <circle cx="90" cy="55" r="22" fill="none" stroke="rgba(201,169,110,0.1)" stroke-width="1"/>
+          <path d="M65,55 Q60,30 75,20 L90,15 L105,20 Q120,30 115,55 Z" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+          <rect x="80" y="25" width="20" height="8" rx="2" fill="none" stroke="rgba(201,169,110,0.4)" stroke-width="0.8"/>
+          <ellipse cx="90" cy="62" rx="12" ry="15" fill="none" stroke="rgba(220,200,170,0.5)" stroke-width="1"/>
+          <ellipse cx="85" cy="58" rx="2" ry="2.5" fill="#d4c5a9"/><ellipse cx="95" cy="58" rx="2" ry="2.5" fill="#d4c5a9"/>
+          <path d="M87,67 Q90,70 93,67" fill="none" stroke="#d4c5a9" stroke-width="0.8"/>
+          <path d="M82,75 Q80,95 78,115 Q76,125 80,130" fill="none" stroke="rgba(180,160,130,0.5)" stroke-width="1"/>
+          <path d="M90,75 Q90,95 90,115 Q90,125 92,130" fill="none" stroke="rgba(180,160,130,0.4)" stroke-width="0.8"/>
+          <path d="M98,75 Q100,95 102,115 Q104,125 100,130" fill="none" stroke="rgba(180,160,130,0.5)" stroke-width="1"/>
+          <path d="M55,85 Q50,95 45,110" stroke="#c9a96e" stroke-width="1.2" fill="none"/>
+          <path d="M125,85 Q130,95 135,110" stroke="#c9a96e" stroke-width="1.2" fill="none"/>
+          <path d="M65,85 L90,130 L115,85 Z" fill="none" stroke="rgba(201,169,110,0.4)" stroke-width="1"/>
+          <circle cx="90" cy="105" r="10" fill="none" stroke="rgba(201,169,110,0.5)" stroke-width="1"/>
+          <path d="M82,100 Q86,95 90,100 Q94,105 98,100" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.6"/>
+          <line x1="50" y1="140" x2="130" y2="140" stroke="rgba(201,169,110,0.4)" stroke-width="1.5"/>
+          <rect x="75" y="138" width="30" height="5" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.5"/>
+          <path d="M60,140 L50,195 L75,195 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <path d="M70,140 L68,200 L88,200 L85,140 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <path d="M90,140 L88,205 L108,205 L105,140 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <path d="M100,140 L115,195 L110,140 Z" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.8"/>
+          <line x1="168" y1="20" x2="60" y2="80" stroke="#c9a96e" stroke-width="2.5"/>
+          <path d="M55,78 L48,60 Q42,50 50,45 L60,55 Z" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+          <path d="M55,78 L52,88" stroke="#c9a96e" stroke-width="1"/>
+          <path d="M50,50 Q40,45 45,40" fill="none" stroke="#c9a96e" stroke-width="1.2"/>
+          <path d="M60,55 Q58,42 65,38 Q72,42 60,55" fill="none" stroke="rgba(180,50,30,0.4)" stroke-width="1"/>
+          <path d="M45,110 Q25,95 20,110 Q15,125 30,120" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="1"/>
+          <path d="M135,110 Q155,95 160,110 Q165,125 150,120" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="1"/>
+          <g opacity="0.3"><line x1="90" y1="25" x2="90" y2="10" stroke="#f0d78c" stroke-width="0.5"/>
+          <line x1="70" y1="28" x2="60" y2="18" stroke="#f0d78c" stroke-width="0.5"/>
+          <line x1="110" y1="28" x2="120" y2="18" stroke="#f0d78c" stroke-width="0.5"/></g>
+        </svg>
+      </div>
+      <div class="guardian-name">伽蓝菩萨</div>
+      <div class="guardian-title">护法伽蓝圣众菩萨</div>
+      <div class="guardian-mantra">伽蓝主者 合寺威灵<br>钦承佛敕共输诚<br>拥护法王城<br>为翰为屏<br>梵刹永安宁</div>
+    </aside>
+
+  </div>
+
+  <!-- ===== 底部 ===== -->
+  <footer class="footer">
+    <div class="footer-line"></div>
+    <p>愿以此功德　庄严佛净土<br>上报四重恩　下济三途苦</p>
+    <p>若有见闻者　悉发菩提心<br>尽此一报身　同生极乐国</p>
+    <p class="dedication">南无本师释迦牟尼佛<br>南无护法韦驮尊天菩萨　南无伽蓝圣众菩萨<br>南无金刚藏菩萨　南无楞严会上佛菩萨</p>
+    <p style="margin-top:15px; color:#3a2525; font-size:0.7em;">以最虔诚恭敬之心，敬奉金刚般若波罗蜜经与大佛顶首楞严神咒</p>
+  </footer>
+
+</div>
+
+<script>
+var currentTab = 'diamond';
+var fontScale = 1;
+
+// 标签切换
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.sutra-section').forEach(function(s){ s.classList.remove('active'); });
+  var btnIndex = tab === 'diamond' ? 0 : (tab === 'shurangama' ? 1 : 2);
+  var sectionMap = { diamond: 'section-diamond', shurangama: 'section-shurangama', commentary: 'section-commentary' };
+  var navMap = { diamond: 'navDiamond', shurangama: 'navShurangama', commentary: 'navCommentary' };
+  document.querySelectorAll('.tab-btn')[btnIndex].classList.add('active');
+  document.getElementById(sectionMap[tab]).classList.add('active');
+  Object.keys(navMap).forEach(function(k) {
+    document.getElementById(navMap[k]).style.display = (k === tab) ? 'block' : 'none';
+  });
+  document.getElementById('sutraScroll').scrollTop = 0;
+  updateProgress();
+}
+
+// 导航面板
+function toggleNav() {
+  var panel = document.getElementById('navPanel');
+  panel.classList.toggle('show');
+}
+
+// 滚动到指定章节
+function scrollToId(id) {
+  var el = document.getElementById(id);
+  if (el) {
+    var scrollContainer = document.getElementById('sutraScroll');
+    var rect = el.getBoundingClientRect();
+    var containerRect = scrollContainer.getBoundingClientRect();
+    scrollContainer.scrollTop += (rect.top - containerRect.top - 20);
+  }
+  document.getElementById('navPanel').classList.remove('show');
+}
+
+// 注音切换
+function togglePinyin() {
+  var body = document.body;
+  var btn = document.getElementById('pinyinToggle');
+  if (body.classList.contains('hide-pinyin')) {
+    body.classList.remove('hide-pinyin');
+    btn.textContent = '注音 开';
+    btn.classList.add('active');
+  } else {
+    body.classList.add('hide-pinyin');
+    btn.textContent = '注音 关';
+    btn.classList.remove('active');
+  }
+}
+
+// 字号调节
+function changeFontSize(dir) {
+  if (dir === 0) {
+    fontScale = 1;
+  } else {
+    fontScale = Math.max(0.75, Math.min(1.5, fontScale + dir * 0.1));
+  }
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+}
+
+// 阅读进度条
+function updateProgress() {
+  var scrollContainer = document.getElementById('sutraScroll');
+  var max = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+  if (max > 0) {
+    var pct = (scrollContainer.scrollTop / max) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+}
+
+document.getElementById('sutraScroll').addEventListener('scroll', updateProgress);
+
+// 点击外部关闭导航
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('navPanel');
+  var btn = document.querySelector('.nav-toggle-btn');
+  if (panel.classList.contains('show') && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.classList.remove('show');
+  }
+});
+
+// 初始化
+updateProgress();
+</script>
+
+</body>
+</html>
