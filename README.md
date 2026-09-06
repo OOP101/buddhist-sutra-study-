@@ -1,6 +1,12 @@
+<div align="center">
+
+![Static](https://img.shields.io/badge/技术栈-原生HTML%2FCSS%2FJS-blue) ![Pages](https://img.shields.io/badge/GitHub%20Pages-已启用-brightgreen) ![License](https://img.shields.io/badge/经典原文-Public%20Domain-lightgrey)
+
 # 金刚经 · 楞严咒 学习网站
 
 > 以敬神明 · 庄严排版 · 全文注音 · 经文详解
+
+</div>
 
 一个单文件佛教经典学习网站，收录 **《金刚般若波罗蜜经》全文（三十二品）** 与 **《大佛顶首楞严神咒》全文（五会四百二十七句）**，以庄严肃穆的金箔风格呈现，供诵经、抄经与深入研读之用。
 
@@ -37,6 +43,14 @@
 - 五会结构：毗卢遮那佛法会、释迦牟尼佛法会、观世音菩萨法会、刚藏菩萨法会、文殊师利菩萨法会
 - 咒心逐句略释
 - 持诵功德与注意事项
+
+## 目录结构
+
+```
+.
+├── index.html   # 单文件应用：经文 + 注音 + 导航 + 详解（约 105KB）
+└── README.md    # 项目说明
+```
 
 ## 本地使用
 
