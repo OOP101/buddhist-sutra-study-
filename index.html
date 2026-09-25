@@ -958,6 +958,54 @@ document.addEventListener('click', function(e) {
 // ===== 全文自动朗读（Web Speech API，纯浏览器能力，零依赖）=====
 var speechState = { queue: [], index: 0, on: false, lastEl: null };
 
+// 咒语读音映射：按页面注音逐字转为同音字，确保 TTS 读音与注音一致
+var PY2CHAR = {"biàn": "遍", "bàng": "谤", "bào": "报", "bá": "拔", "bì": "必", "bí": "鼻", "bó": "博", "bù": "布", "bān": "班", "bēi": "悲", "bēng": "崩", "bīng": "兵", "bō": "波", "bǎo": "宝", "bǐ": "笔", "bǔ": "补", "chà": "诧", "chá": "茶", "cháng": "常", "chén": "尘", "chéng": "成", "chì": "赤", "chí": "持", "chú": "除", "chā": "叉", "chē": "车", "chēn": "嗔", "chēng": "称", "chǎng": "厂", "cuì": "翠", "cí": "慈", "cǐ": "此", "dié": "叠", "diān": "颠", "diǎn": "点", "duō": "多", "duǒ": "躲", "dà": "大", "dàn": "旦", "dào": "道", "dá": "达", "dé": "德", "dì": "帝", "dòng": "动", "dù": "渡", "dān": "丹", "dēng": "登", "dīng": "丁", "dōu": "兜", "dǎo": "导", "dǐ": "抵", "dǐng": "顶", "fàn": "梵", "fá": "罚", "fáng": "防", "fèi": "费", "fèng": "凤", "fó": "佛", "fù": "富", "fú": "福", "fāng": "方", "fǎ": "法", "guān": "关", "guǒ": "果", "gèng": "更", "gé": "阁", "gāng": "刚", "huán": "环", "huì": "慧", "huò": "惑", "hàn": "汉", "héng": "恒", "hē": "诃", "hū": "乎", "hǔ": "虎", "jiàn": "剑", "jiè": "界", "jié": "结", "jiā": "迦", "jiāng": "江", "jiē": "揭", "jiū": "鸠", "jué": "绝", "jì": "记", "jí": "吉", "jù": "惧", "jī": "机", "jīn": "金", "kě": "可", "liǎn": "敛", "luó": "逻", "là": "辣", "lài": "赖", "lán": "蓝", "láng": "郎", "láo": "牢", "léng": "楞", "lì": "力", "lìng": "令", "lí": "离", "líng": "灵", "lù": "路", "lú": "炉", "lüè": "略", "lǐ": "理", "miào": "妙", "miè": "灭", "miǎo": "渺", "màn": "曼", "máng": "忙", "mì": "密", "mí": "弥", "míng": "明", "mò": "墨", "mó": "摩", "móu": "牟", "mù": "幕", "mǔ": "母", "nà": "纳", "ná": "拿", "nán": "南", "ní": "尼", "níng": "凝", "nú": "奴", "nā": "那", "nǎn": "赧", "nǐ": "拟", "nǚ": "女", "pàn": "盼", "pán": "盘", "pí": "毗", "pín": "频", "pó": "婆", "pú": "菩", "pō": "颇", "pǔ": "普", "qián": "前", "qié": "茄", "qì": "器", "qí": "祈", "qū": "屈", "qǐ": "岂", "qǐng": "请", "qǔ": "取", "ruò": "弱", "rù": "入", "rú": "儒", "shuì": "睡", "shuò": "烁", "shàn": "善", "shàng": "尚", "shè": "摄", "shé": "舌", "shì": "逝", "shí": "实", "shù": "树", "shùn": "舜", "shā": "沙", "shāng": "商", "shēn": "身", "shēng": "声", "shě": "舍", "shěn": "审", "shī": "尸", "shū": "殊", "shǐ": "始", "shǒu": "首", "suō": "娑", "suǒ": "锁", "sà": "萨", "sè": "瑟", "sì": "肆", "sù": "素", "sān": "三", "sēng": "僧", "sī": "斯", "sū": "苏", "tiáo": "条", "tuán": "团", "tuó": "陀", "tuō": "拖", "tà": "踏", "tán": "檀", "téng": "藤", "tí": "提", "tóu": "投", "tù": "兔", "tū": "突", "wáng": "王", "wèi": "卫", "wèng": "瓮", "wén": "闻", "wú": "吴", "wēi": "威", "wū": "乌", "wǎng": "往", "wǒ": "我", "wǔ": "五", "xióng": "熊", "xiān": "仙", "xiāo": "萧", "xiě": "写", "xiǎng": "想", "xì": "细", "xìng": "性", "xī": "悉", "xīn": "心", "yuàn": "愿", "yào": "耀", "yán": "严", "yáng": "扬", "yè": "叶", "yì": "亿", "yìn": "印", "yù": "玉", "yú": "于", "yē": "耶", "yě": "野", "yī": "医", "yīn": "音", "yīng": "英", "yōng": "雍", "yǎn": "演", "yǐn": "隐", "yǒu": "友", "zhuì": "坠", "zhuó": "浊", "zhuǎn": "转", "zhà": "乍", "zhàn": "战", "zhàng": "障", "zhái": "宅", "zhèng": "证", "zhì": "智", "zhí": "执", "zhòng": "众", "zhù": "注", "zhā": "渣", "zhān": "瞻", "zhē": "遮", "zhě": "者", "zhī": "知", "zhōng": "钟", "zhǐ": "纸", "zhǔ": "主", "zuò": "座", "zàng": "葬", "zé": "责", "zūn": "尊", "zǎo": "澡", "zǒng": "总", "àng": "盎", "è": "厄", "ā": "阿", "ēn": "恩", "ōng": "嗡"};
+
+// 中文正文读音修正（佛教多音字）+ 全角空格转为停顿
+var FIX = { '南无': '那摩', '般若': '波惹', '给孤独': '几孤独' };
+function applyFix(t) {
+  var r = t.replace(/　/g, '，');
+  for (var k in FIX) { r = r.split(k).join(FIX[k]); }
+  return r;
+}
+
+// 咒语行：注音音节 → 同音字；注音自带逗号分段则直接用其停顿，否则按原文空格分段，再退四字一顿
+function pinyinToSpeech(py, zh) {
+  var toks = py.match(/[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+|[，、,]/g);
+  if (!toks) return null;
+  var out = [], sawPause = false;
+  for (var i = 0; i < toks.length; i++) {
+    if (toks[i] === '，' || toks[i] === '、' || toks[i] === ',') {
+      out.push('，'); sawPause = true;
+    } else {
+      var c = PY2CHAR[toks[i]];
+      if (!c) return null;
+      out.push(c);
+    }
+  }
+  var joined = out.join('').replace(/，+$/, '');
+  if (sawPause) return joined;
+  var segs = zh.split('　');
+  if (segs.length > 1) {
+    var total = 0;
+    for (var s = 0; s < segs.length; s++) total += segs[s].length;
+    if (total === out.length) {
+      var res = [], pos = 0;
+      for (var t = 0; t < segs.length; t++) {
+        res.push(joined.slice(pos, pos + segs[t].length));
+        pos += segs[t].length;
+      }
+      return res.join('，');
+    }
+  }
+  var flat = '';
+  for (var j = 0; j < joined.length; j++) {
+    flat += joined[j];
+    if ((j + 1) % 4 === 0 && j !== joined.length - 1) flat += '、';
+  }
+  return flat;
+}
+
 function getReadableBlocks() {
   var section = document.querySelector('.sutra-section.active');
   if (!section) return [];
@@ -965,15 +1013,24 @@ function getReadableBlocks() {
   var nodes = section.querySelectorAll(sel);
   var out = [];
   for (var i = 0; i < nodes.length; i++) {
-    var t = (nodes[i].textContent || '').trim();
+    var el = nodes[i];
+    var t = (el.textContent || '').trim();
     if (!t) continue;
+    if (/^——.+——$/.test(t)) continue;
     var m = t.match(/^(.*?)[（(]三称[）)]$/);
     if (m) {
-      var core = m[1].trim();
-      for (var r = 0; r < 3; r++) out.push({ el: nodes[i], text: core });
-    } else {
-      out.push({ el: nodes[i], text: t });
+      var core = applyFix(m[1].trim());
+      for (var r = 0; r < 3; r++) out.push({ el: el, text: core });
+      continue;
     }
+    var parCls = el.parentElement ? el.parentElement.className : '';
+    var isSanskrit = el.classList.contains('mantra-entry') && el.getAttribute('data-pinyin') &&
+      String(parCls).indexOf('mantra-verse') === -1 && String(parCls).indexOf('ritual-text') === -1;
+    if (isSanskrit) {
+      var sp = pinyinToSpeech(el.getAttribute('data-pinyin'), t);
+      if (sp) { out.push({ el: el, text: sp }); continue; }
+    }
+    out.push({ el: el, text: applyFix(t) });
   }
   return out;
 }
