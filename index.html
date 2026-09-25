@@ -956,7 +956,7 @@ document.addEventListener('click', function(e) {
 });
 
 // ===== 全文自动朗读（Web Speech API，纯浏览器能力，零依赖）=====
-var speechState = { queue: [], index: 0, on: false };
+var speechState = { queue: [], index: 0, on: false, lastEl: null };
 
 function getReadableBlocks() {
   var section = document.querySelector('.sutra-section.active');
@@ -966,18 +966,34 @@ function getReadableBlocks() {
   var out = [];
   for (var i = 0; i < nodes.length; i++) {
     var t = (nodes[i].textContent || '').trim();
-    if (t) out.push({ el: nodes[i], text: t });
+    if (!t) continue;
+    var m = t.match(/^(.*?)[（(]三称[）)]$/);
+    if (m) {
+      var core = m[1].trim();
+      for (var r = 0; r < 3; r++) out.push({ el: nodes[i], text: core });
+    } else {
+      out.push({ el: nodes[i], text: t });
+    }
   }
   return out;
 }
 
+var cachedVoices = [];
 function pickVoice() {
-  var voices = speechSynthesis.getVoices();
+  var voices = cachedVoices.length ? cachedVoices : speechSynthesis.getVoices();
   var zh = [];
   for (var i = 0; i < voices.length; i++) {
     if (voices[i].lang && voices[i].lang.toLowerCase().indexOf('zh') === 0) zh.push(voices[i]);
   }
-  for (var j = 0; j < zh.length; j++) { if (zh[j].localService) return zh[j]; }
+  var prefs = ['Xiaoxiao', 'Yunyang', 'Yunxi', 'Yunjian'];
+  for (var p = 0; p < prefs.length; p++) {
+    for (var k = 0; k < zh.length; k++) {
+      if (zh[k].name.indexOf(prefs[p]) !== -1) return zh[k];
+    }
+  }
+  for (var n = 0; n < zh.length; n++) {
+    if (zh[n].name.indexOf('Natural') !== -1 || zh[n].name.indexOf('Online') !== -1) return zh[n];
+  }
   return zh[0] || null;
 }
 
@@ -990,8 +1006,12 @@ function speakNext() {
   if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = 'zh-CN'; }
   u.rate = 0.85;
   u.onstart = function () {
-    item.el.classList.add('reading');
-    item.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (speechState.lastEl !== item.el) {
+      if (speechState.lastEl) speechState.lastEl.classList.remove('reading');
+      item.el.classList.add('reading');
+      item.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      speechState.lastEl = item.el;
+    }
   };
   u.onend = function () { advanceSpeech(item); };
   u.onerror = function () { advanceSpeech(item); };
@@ -999,7 +1019,6 @@ function speakNext() {
 }
 
 function advanceSpeech(item) {
-  item.el.classList.remove('reading');
   if (!speechState.on) return;
   speechState.index += 1;
   speakNext();
@@ -1021,6 +1040,7 @@ function startSpeech() {
 
 function stopSpeech(quiet) {
   speechState.on = false;
+  speechState.lastEl = null;
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   var marked = document.querySelectorAll('.reading');
   for (var i = 0; i < marked.length; i++) marked[i].classList.remove('reading');
@@ -1037,6 +1057,12 @@ function toggleSpeech() {
 window.addEventListener('beforeunload', function () {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
 });
+
+if ('speechSynthesis' in window) {
+  var loadVoices = function () { cachedVoices = speechSynthesis.getVoices(); };
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
 
 // 初始化
 updateProgress();
