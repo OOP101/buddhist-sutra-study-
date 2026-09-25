@@ -13,20 +13,20 @@
     --pinyin-display: block;
     --paper: #ffffff;
     --card: #ffffff;
-    --ink: #262320;
-    --ink-2: #5f5b54;
-    --ink-3: #a3a09a;
-    --line: #e8e7e4;
-    --accent: #9c3a2b;
-    --quote-bg: #f7f6f4;
-    --chip-bg: #f5f4f2;
+    --ink: #201d19;
+    --ink-2: #4a453d;
+    --ink-3: #6e685e;
+    --line: #e5e2db;
+    --accent: #a03b2a;
+    --quote-bg: #f5f2ea;
+    --chip-bg: #f3f0e9;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
     background: var(--paper); color: var(--ink);
-    font-size: 16px; line-height: 1.9;
+    font-size: clamp(17px, 16px + 0.38vw, 21px); line-height: 1.9;
   }
   [id] { scroll-margin-top: 64px; }
 
@@ -82,13 +82,13 @@
   .toc::-webkit-scrollbar { width: 4px; }
   .toc::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1024px) {
     .layout { display: grid; grid-template-columns: 264px minmax(0, 760px); gap: 56px; justify-content: center; align-items: start; }
     .toc { display: block; }
     .nav-toggle-btn { display: none; }
     .nav-panel { display: none !important; }
   }
-  @media (max-width: 1199.9px) {
+  @media (max-width: 1023.9px) {
     .main-wrapper { max-width: 820px; }
   }
 
@@ -117,7 +117,7 @@
   .mantra-entry { margin: 9px 0; line-height: 1.9; }
   .mantra-entry::after { content: attr(data-pinyin); display: var(--pinyin-display); font-size: .55em; color: var(--ink-3); letter-spacing: .03em; line-height: 1.5; margin-top: 1px; }
   body.hide-pinyin { --pinyin-display: none; }
-  .mantra-verse { margin: 16px 0; color: var(--ink-2); }
+  .mantra-verse { margin: 16px 0; color: var(--ink); }
 
   /* 详解 */
   .commentary-intro { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 22px 26px; margin: 24px 0; line-height: 1.9; font-size: calc(.92em * var(--font-scale)); }
@@ -155,6 +155,17 @@
     .tab-btn { font-size: calc(.85em * var(--font-scale)); padding: 13px 2px 11px; letter-spacing: 0; }
     .nav-panel { right: 12px; width: min(300px, calc(100vw - 24px)); }
   }
+  /* ---- 主题：羊皮 ---- */
+  html[data-theme="sepia"] {
+    --paper: #f6f1e6; --card: #fbf7ee; --ink: #322a1e; --ink-2: #5c5240; --ink-3: #7d7158;
+    --line: #e2d9c6; --accent: #a03b2a; --quote-bg: #efe7d4; --chip-bg: #ece3cf;
+  }
+  /* ---- 主题：夜间 ---- */
+  html[data-theme="dark"] {
+    --paper: #16140f; --card: #1e1b15; --ink: #ddd6c6; --ink-2: #b3aa95; --ink-3: #8f8672;
+    --line: #353026; --accent: #d4694f; --quote-bg: #262219; --chip-bg: #28241c;
+  }
+
 </style>
 </head>
 <body>
@@ -173,6 +184,7 @@
     <a class="repo-link" href="https://github.com/OOP101/buddhist-sutra-study-" target="_blank" rel="noopener">GitHub 仓库</a>
     <!-- 工具栏 -->
     <div class="toolbar">
+      <button class="tool-btn" id="themeToggle" onclick="cycleTheme()" title="切换主题：白昼 / 羊皮 / 夜间">主题·白</button>
       <button class="tool-btn" id="speechToggle" onclick="toggleSpeech()">朗读</button>
       <button class="tool-btn active" id="pinyinToggle" onclick="togglePinyin()">注音 开</button>
       <div class="font-btns">
@@ -233,7 +245,7 @@
             <a onclick="scrollToId('s-3')">第三会（降伏法）</a>
             <a onclick="scrollToId('s-4')">第四会（息灾法）</a>
             <a onclick="scrollToId('s-5')">第五会（楞严咒心）</a>
-            <a onclick="scrollToId('s-heart')" style="color:#9c3a2b;font-weight:600">★ 楞严咒心</a>
+            <a onclick="scrollToId('s-heart')" style="color:#a03b2a;font-weight:600">★ 楞严咒心</a>
         </div>
       <div class="toc-block" id="tocCommentary" style="display:none">
           <h4>经文详解</h4>
@@ -307,7 +319,7 @@
             <a onclick="scrollToId('s-3')">第三会（降伏法）</a>
             <a onclick="scrollToId('s-4')">第四会（息灾法）</a>
             <a onclick="scrollToId('s-5')">第五会（楞严咒心）</a>
-            <a onclick="scrollToId('s-heart')" style="color:#9c3a2b;font-weight:600">★ 楞严咒心</a>
+            <a onclick="scrollToId('s-heart')" style="color:#a03b2a;font-weight:600">★ 楞严咒心</a>
         </div>
         <div id="navCommentary" style="display:none">
           <h4>经文详解</h4>
@@ -433,7 +445,7 @@
 
             <div class="chapter-title" id="d26">法身非相分第二十六</div>
             <p>「须菩提！于意云何？可以三十二相观如来不？」须菩提言：「如是！如是！以三十二相观如来。」佛言：「须菩提！若以三十二相观如来者，转轮圣王即是如来。」须菩提白佛言：「世尊！如我解佛所说义，不应以三十二相观如来。」尔时，世尊而说偈言：</p>
-            <p style="text-align:center; font-size:1.1em; color:#9c3a2b; font-weight:700;">「<span class="highlight">若以色见我　以音声求我<br>是人行邪道　不能见如来</span>」</p>
+            <p style="text-align:center; font-size:1.1em; color:#a03b2a; font-weight:700;">「<span class="highlight">若以色见我　以音声求我<br>是人行邪道　不能见如来</span>」</p>
 
             <div class="chapter-title" id="d27">无断无灭分第二十七</div>
             <p>「须菩提！汝若作是念：『如来不以具足相故，得阿耨多罗三藐三菩提。』须菩提！莫作是念！如来不以具足相故，得阿耨多罗三藐三菩提。须菩提！汝若作是念，发阿耨多罗三藐三菩提心者，说诸法断灭。莫作是念！何以故？发阿耨多罗三藐三菩提心者，于法不说断灭相。」</p>
@@ -452,9 +464,9 @@
 
             <div class="chapter-title" id="d32">应化非真分第三十二</div>
             <p>「须菩提！若有人以满无量阿僧祇世界七宝持用布施。若有善男子、善女人发菩提心者，持于此经，乃至四句偈等，受持读诵，为人演说，其福胜彼。云何为人演说？不取于相，如如不动。何以故？</p>
-            <p style="text-align:center; font-size:1.15em; color:#9c3a2b; font-weight:700; line-height:2.5;">「<span class="highlight">一切有为法　如梦幻泡影<br>如露亦如电　应作如是观</span>」</p>
+            <p style="text-align:center; font-size:1.15em; color:#a03b2a; font-weight:700; line-height:2.5;">「<span class="highlight">一切有为法　如梦幻泡影<br>如露亦如电　应作如是观</span>」</p>
             <p>佛说是经已，长老须菩提及诸比丘、比丘尼、优婆塞、优婆夷，一切世间天、人、阿修罗，闻佛所说，皆大欢喜，信受奉行。</p>
-            <p style="text-align:center; color:#9c3a2b; font-weight:700; margin-top:30px;">金刚般若波罗蜜经　终</p>
+            <p style="text-align:center; color:#a03b2a; font-weight:700; margin-top:30px;">金刚般若波罗蜜经　终</p>
           </div>
         </div>
 
@@ -661,7 +673,7 @@
             <div class="mantra-entry" data-pinyin="dì shū pán tán jiā lú mí bān là pí tuó pán tán jiā lú mí">帝殊槃昙迦嚧弥　般啰毗陀槃昙迦嚧弥</div>
 
             <!-- 楞严咒心 -->
-            <div class="mantra-entry" id="s-heart" data-pinyin="duō zhí tuō ōng ā nà lì pí shě tí pí là bá shé là tuó lì pán tuó pán tuó nǐ bá shé là bàng ní pàn hǔ dōu lú wèng pàn suō pó hē" style="font-size:1.2em; color:#9c3a2b; font-weight:700; margin:20px 0;">
+            <div class="mantra-entry" id="s-heart" data-pinyin="duō zhí tuō ōng ā nà lì pí shě tí pí là bá shé là tuó lì pán tuó pán tuó nǐ bá shé là bàng ní pàn hǔ dōu lú wèng pàn suō pó hē" style="font-size:1.2em; color:#a03b2a; font-weight:700; margin:20px 0;">
             哆姪他　唵　阿那隶　毗舍提<br>鞞啰跋阇啰陀唎　槃陀槃陀你<br>跋阇啰谤尼泮　虎𤙖都嚧瓮泮　莎婆诃
             </div>
             <div class="mantra-entry" data-pinyin="" style="color:#a29a8a;font-size:0.8em">—— 大佛顶首楞严神咒 终 ——</div>
@@ -933,6 +945,7 @@ function changeFontSize(dir) {
     fontScale = Math.max(0.75, Math.min(1.5, fontScale + dir * 0.1));
   }
   document.documentElement.style.setProperty('--font-scale', fontScale);
+  try { localStorage.setItem('bs-font-scale', String(fontScale)); } catch (e) {}
 }
 
 // 阅读进度条
@@ -1120,6 +1133,32 @@ if ('speechSynthesis' in window) {
   loadVoices();
   speechSynthesis.onvoiceschanged = loadVoices;
 }
+(function () {
+  try {
+    var s = parseFloat(localStorage.getItem('bs-font-scale'));
+    if (s >= 0.75 && s <= 1.5) { fontScale = s; document.documentElement.style.setProperty('--font-scale', s); }
+  } catch (e) {}
+})();
+
+// ===== 主题切换（白昼 / 羊皮 / 夜间）=====
+var THEMES = ['light', 'sepia', 'dark'];
+var THEME_LABEL = { light: '主题·白', sepia: '主题·羊', dark: '主题·夜' };
+function setTheme(t) {
+  if (THEMES.indexOf(t) === -1) t = 'light';
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem('bs-theme', t); } catch (e) {}
+  var b = document.getElementById('themeToggle');
+  if (b) b.textContent = THEME_LABEL[t];
+}
+function cycleTheme() {
+  var cur = document.documentElement.getAttribute('data-theme') || 'light';
+  setTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]);
+}
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem('bs-theme'); } catch (e) {}
+  if (saved && saved !== 'light') setTheme(saved);
+})();
 
 // 初始化
 updateProgress();
